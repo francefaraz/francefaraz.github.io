@@ -1,0 +1,3 @@
+[submodule "cursors"]
+    path = cursors
+    url = https://github.com/francefaraz/francefaraz.github.io.git
