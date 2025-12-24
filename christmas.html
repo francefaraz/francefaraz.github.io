@@ -1,0 +1,2612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry Christmas! 🎄</title>
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Note: MorphSVG, Physics2D, and DrawSVG are premium GSAP plugins and require a license -->
+    <!-- The animation will work with basic GSAP features -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Animated Background GIFs */
+        .bg-snow-gif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .bg-snow-gif img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Enhanced Snow Animation */
+        .snow {
+            position: fixed;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: white;
+            font-size: 1em;
+            font-family: Arial;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+            animation: fall linear infinite, sway 3s ease-in-out infinite;
+            opacity: 0.9;
+        }
+
+        .snowflake:nth-child(3n) {
+            animation-duration: 3s, 4s;
+        }
+
+        .snowflake:nth-child(3n+1) {
+            animation-duration: 4s, 5s;
+        }
+
+        .snowflake:nth-child(3n+2) {
+            animation-duration: 5s, 6s;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) translateX(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) translateX(50px) rotate(360deg);
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(20px);
+            }
+        }
+
+        /* Additional Snow Particles */
+        .snow-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+            animation: particleFall linear infinite;
+        }
+
+        @keyframes particleFall {
+            0% {
+                transform: translateY(-100px) translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) translateX(30px);
+                opacity: 0.3;
+            }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px 20px 100px 20px;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* Card */
+        .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 60px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                        0 0 100px rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* CodePen Animation Container - Responsive */
+        .codepen-animation-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 40px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible;
+        }
+
+        .container-inner {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mainSVG {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            visibility: hidden;
+        }
+
+        .mainSVG.visible {
+            visibility: visible;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .codepen-animation-container {
+                max-width: 100%;
+                margin: 20px auto;
+            }
+            
+            .mainSVG {
+                max-height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mainSVG {
+                max-height: 250px;
+            }
+        }
+
+        /* Subtitle */
+        .subtitle {
+            font-size: 1.5rem;
+            color: #ffd93d;
+            margin-bottom: 40px;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* Message */
+        .message {
+            font-size: 1.3rem;
+            color: #ffffff;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+        }
+
+
+        /* Mute Button */
+        .mute-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 200;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .mute-button:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .mute-button.muted {
+            opacity: 0.5;
+        }
+
+        .mute-button span {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        /* Christmas Tree */
+        .tree-container {
+            margin: 40px 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tree {
+            font-size: 3rem;
+            animation: sway 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.8));
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .tree:hover {
+            transform: scale(1.1);
+        }
+
+        /* Santa Wave GIF beside tree */
+        .santa-wave-gif {
+            width: 150px;
+            height: 150px;
+            animation: santaWaveFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.6));
+        }
+
+        .santa-wave-gif img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        @keyframes santaWaveFloat {
+            0%, 100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: rotate(-2deg);
+            }
+            50% {
+                transform: rotate(2deg);
+            }
+        }
+
+        /* Stars */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            color: #ffd93d;
+            font-size: 1.5rem;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Button */
+        .button {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+            margin: 10px;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .button:active {
+            transform: scale(0.95);
+        }
+
+        .button.share {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        }
+
+        .button.share:hover {
+            box-shadow: 0 8px 30px rgba(78, 205, 196, 0.6);
+        }
+
+        /* Sticky Bottom Bar */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bottom-bar .button {
+            margin: 0;
+            width: auto;
+        }
+
+        /* Personalized Greeting - Enhanced Card Style */
+        .greeting-from-to {
+            font-size: 1.3rem;
+            color: #ffd93d;
+            margin: 30px auto;
+            padding: 25px 30px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(78, 205, 196, 0.15) 100%);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            animation: twinkle 2s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .greeting-from-to .from-name {
+            color: #4ecdc4;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(78, 205, 196, 0.2);
+            border-radius: 8px;
+        }
+
+        .greeting-from-to .to-name {
+            color: #ff6b6b;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(255, 107, 107, 0.2);
+            border-radius: 8px;
+        }
+
+        .greeting-separator {
+            margin: 0 15px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .greeting-from-to {
+                font-size: 1.1rem;
+                padding: 20px 15px;
+                margin: 20px auto;
+            }
+            .greeting-separator {
+                margin: 0 10px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Decorative Elements */
+        .ornaments {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .ornament {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .ornament.red {
+            background: radial-gradient(circle, #ff4444, #cc0000);
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.8);
+        }
+
+        .ornament.gold {
+            background: radial-gradient(circle, #ffd700, #ffaa00);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .ornament.green {
+            background: radial-gradient(circle, #4caf50, #2e7d32);
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            .message {
+                font-size: 1.1rem;
+            }
+            .card {
+                padding: 40px 20px;
+            }
+            .christmas-gif {
+                width: 120px;
+                height: 120px;
+            }
+            .christmas-gif.left {
+                left: -30px;
+            }
+            .christmas-gif.right {
+                right: -30px;
+            }
+            .animated-gif-center {
+                width: 100px;
+                height: 100px;
+                bottom: -60px;
+            }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            position: absolute;
+            animation: confettiFall 3s linear infinite;
+            border-radius: 2px;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Christmas Lights */
+        .lightrope {
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            position: absolute;
+            z-index: 1;
+            margin: -15px 0 0 0;
+            padding: 0;
+            pointer-events: none;
+            width: 100%;
+            top: 0;
+        }
+
+        .lightrope li {
+            position: relative;
+            animation-fill-mode: both;
+            animation-iteration-count: infinite;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: block;
+            width: 12px;
+            height: 28px;
+            border-radius: 50%;
+            margin: 20px;
+            display: inline-block;
+            background: rgba(0,247,165,1);
+            box-shadow: 0px 4.67px 24px 3px rgba(0,247,165,1);
+            animation-name: flash-1;
+            animation-duration: 2s;
+        }
+
+        .lightrope li:nth-child(2n+1) {
+            background: rgba(0,255,255,1);
+            box-shadow: 0px 4.67px 24px 3px rgba(0,255,255,0.5);
+            animation-name: flash-2;
+            animation-duration: 0.4s;
+        }
+
+        .lightrope li:nth-child(4n+2) {
+            background: rgba(247,0,148,1);
+            box-shadow: 0px 4.67px 24px 3px rgba(247,0,148,1);
+            animation-name: flash-3;
+            animation-duration: 1.1s;
+        }
+
+        .lightrope li:nth-child(odd) {
+            animation-duration: 1.8s;
+        }
+
+        .lightrope li:nth-child(3n+1) {
+            animation-duration: 1.4s;
+        }
+
+        .lightrope li:before {
+            content: "";
+            position: absolute;
+            background: #222;
+            width: 10px;
+            height: 9.33px;
+            border-radius: 3px;
+            top: -4.67px;
+            left: 1px;
+        }
+
+        .lightrope li:after {
+            content: "";
+            top: -14px;
+            left: 9px;
+            position: absolute;
+            width: 52px;
+            height: 18.67px;
+            border-bottom: solid #222 2px;
+            border-radius: 50%;
+        }
+
+        .lightrope li:last-child:after {
+            content: none;
+        }
+
+        .lightrope li:first-child {
+            margin-left: -40px;
+        }
+
+        @keyframes flash-1 {
+            0%, 100% { 
+                background: rgba(0,247,165,1);
+                box-shadow: 0px 4.67px 24px 3px rgba(0,247,165,1);
+            }
+            50% { 
+                background: rgba(0,247,165,0.4);
+                box-shadow: 0px 4.67px 24px 3px rgba(0,247,165,0.2);
+            }
+        }
+
+        @keyframes flash-2 {
+            0%, 100% { 
+                background: rgba(0,255,255,1);
+                box-shadow: 0px 4.67px 24px 3px rgba(0,255,255,1);
+            }
+            50% { 
+                background: rgba(0,255,255,0.4);
+                box-shadow: 0px 4.67px 24px 3px rgba(0,255,255,0.2);
+            }
+        }
+
+        @keyframes flash-3 {
+            0%, 100% { 
+                background: rgba(247,0,148,1);
+                box-shadow: 0px 4.67px 24px 3px rgba(247,0,148,1);
+            }
+            50% { 
+                background: rgba(247,0,148,0.4);
+                box-shadow: 0px 4.67px 24px 3px rgba(247,0,148,0.2);
+            }
+        }
+
+        /* Santa in Corners */
+        .santa-corner {
+            position: fixed;
+            font-size: 4rem;
+            z-index: 15;
+            animation: santaWave 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8));
+        }
+
+        .santa-corner.top-left {
+            top: 80px;
+            left: 20px;
+        }
+
+        .santa-corner.top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        .santa-corner.bottom-left {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .santa-corner.bottom-right {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        @keyframes santaWave {
+            0%, 100% {
+                transform: rotate(-5deg) scale(1);
+            }
+            50% {
+                transform: rotate(5deg) scale(1.1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .santa-corner {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Gift Box - Centered */
+        .gift-box {
+            position: relative;
+            margin: 40px auto;
+            z-index: 150;
+            cursor: pointer;
+            animation: giftBounce 2s ease-in-out infinite;
+            text-align: center;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+            transition: transform 0.3s ease;
+            width: fit-content;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        @keyframes giftBounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Puzzle Game Modal */
+        .puzzle-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .puzzle-modal.active {
+            display: flex;
+        }
+
+        .puzzle-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .puzzle-title {
+            color: #ffd93d;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .puzzle-game {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 20px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .puzzle-tile {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            user-select: none;
+        }
+
+        .puzzle-tile:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .puzzle-tile.empty {
+            background: rgba(255, 255, 255, 0.1);
+            cursor: default;
+        }
+
+        .puzzle-tile.empty:hover {
+            transform: scale(1);
+        }
+
+        .puzzle-instructions {
+            color: #ffffff;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .puzzle-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 0, 0, 0.7);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .puzzle-close:hover {
+            background: rgba(255, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
+        .puzzle-success {
+            display: none;
+            color: #4ecdc4;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 15px;
+            animation: successPulse 1s ease-in-out infinite;
+        }
+
+        .puzzle-success.active {
+            display: block;
+        }
+
+        @keyframes successPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gift-box > div:first-child {
+                font-size: 3rem !important;
+            }
+
+            .puzzle-game {
+                width: 250px;
+                height: 250px;
+            }
+
+            .puzzle-tile {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Countdown Timer */
+        .countdown-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .countdown-title {
+            color: #ffd93d;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 15px;
+            min-width: 80px;
+            backdrop-filter: blur(10px);
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffd93d;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: #ffffff;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .countdown-timer {
+                gap: 10px;
+            }
+            .countdown-item {
+                min-width: 70px;
+                padding: 10px 15px;
+            }
+            .countdown-number {
+                font-size: 2rem;
+            }
+        }
+
+        /* Fun Facts Section */
+        .fun-facts-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.1) 0%, rgba(102, 126, 234, 0.1) 100%);
+            border-radius: 20px;
+            border: 2px solid rgba(78, 205, 196, 0.3);
+        }
+
+        .section-title {
+            color: #4ecdc4;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(78, 205, 196, 0.8);
+            text-align: center;
+        }
+
+        .fun-fact {
+            color: #ffffff;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fact-button {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Interactive Section */
+        .interactive-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 142, 142, 0.1) 100%);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .wish-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .wish-input {
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .wish-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .wish-input:focus {
+            outline: none;
+            border-color: rgba(255, 215, 0, 0.8);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .wish-button {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            width: 100%;
+        }
+
+        .wish-hint {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .wish-input-container {
+                max-width: 100%;
+            }
+        }
+
+        /* Copyright Footer */
+        .copyright-footer {
+            position: relative;
+            z-index: 50;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .copyright-footer a {
+            color: #ffd93d;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+
+        .copyright-footer a:hover {
+            color: #4ecdc4;
+            border-bottom-color: #4ecdc4;
+            text-shadow: 0 0 10px rgba(78, 205, 196, 0.8);
+        }
+
+        .copyright-footer .copyright-text {
+            margin-bottom: 8px;
+        }
+
+        .copyright-footer .blog-link {
+            display: inline-block;
+            margin-top: 5px;
+            padding: 5px 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .copyright-footer .blog-link:hover {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.6);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .copyright-footer {
+                font-size: 0.8rem;
+                padding: 15px 10px;
+            }
+        }
+
+        /* Share Joy Modal */
+        .share-joy-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            animation: fadeInModal 0.3s ease-out;
+        }
+
+        .share-joy-modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .share-joy-container {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 107, 107, 0.15) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: modalSlideIn 0.4s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px) scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .share-joy-title {
+            color: #ffd93d;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .share-joy-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .share-joy-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .share-joy-button {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.4);
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .share-joy-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+        }
+
+        .share-joy-button.secondary {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            box-shadow: 0 5px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .share-joy-button.secondary:hover {
+            box-shadow: 0 8px 30px rgba(78, 205, 196, 0.6);
+        }
+
+        .share-joy-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 0, 0, 0.7);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .share-joy-close:hover {
+            background: rgba(255, 0, 0, 0.9);
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .share-joy-input {
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        .share-joy-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .share-joy-input:focus {
+            outline: none;
+            border-color: rgba(255, 215, 0, 0.8);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .share-joy-container {
+                padding: 30px 20px;
+            }
+            .share-joy-title {
+                font-size: 1.5rem;
+            }
+            .share-joy-subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mute Button / Play Music Button -->
+    <div class="mute-button" id="muteButton" onclick="toggleMute()" title="Click to play/control music">
+        <span id="muteIcon">🔊</span>
+    </div>
+    
+    <!-- Santas in All 4 Corners -->
+    <div class="santa-corner top-left">🎅</div>
+    <div class="santa-corner top-right">🎅</div>
+    <div class="santa-corner bottom-left">🎅</div>
+    <div class="santa-corner bottom-right">🎅</div>
+    
+    <!-- Christmas Lights -->
+    <ul class="lightrope">
+        <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        <li></li><li></li><li></li><li></li><li></li>
+    </ul>
+    
+    <!-- Background Music - Randomly plays carol.mp3 or christmas.mp3 -->
+    <audio id="carolAudio" loop preload="auto">
+        <!-- Source will be set dynamically by JavaScript -->
+    </audio>
+    
+    <!-- Button Click Sound - Plays merry_christmas.mp3 on button clicks -->
+    <audio id="buttonClickAudio" preload="auto">
+        <source src="merry_christmas.mp3" type="audio/mpeg">
+        <source src="merry_christmas.mp3" type="audio/mp3">
+    </audio>
+    
+    <!-- Animated Background Snow GIF -->
+    <div class="bg-snow-gif">
+        <img src="https://1.bp.blogspot.com/-l0EVRb2fd3Q/WyNAg2N6m6I/AAAAAAAAAag/yA795u9GRJIf-DaE6-UCcWxL_bbdR5rXwCLcBGAs/s1600/Snow_falling1.gif" alt="Falling Snow" onerror="this.style.display='none';">
+    </div>
+    
+    <div class="snow" id="snow"></div>
+    
+        <div class="container">
+        <div class="card">
+            <div class="ornaments" id="ornaments"></div>
+            
+            <!-- CodePen Animation for Merry Christmas -->
+            <div class="codepen-animation-container">
+                <div class="container-inner">
+                    <svg class="mainSVG" xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="600" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet">
+                        <ellipse id="dot" rx="0" ry="4" cx="300" cy="580" fill="#F3F1E2"/>
+                        <circle id="splashDot" r="0" cx="300" cy="300" fill="#F3F1E2"/>
+                        <circle opacity="0" id="splashRing" r="6" cx="300" cy="300" fill="none" stroke="#F3F1E2" stroke-width="12"/>
+                        <defs>
+                            <circle id="circ" r="1"/>
+                            <path id="star" d="M4.55 0l1.4 2.85 3.15.45-2.28 2.22.54 3.13-2.81-1.48-2.81 1.48.53-3.13L0 3.3l3.14-.45z"/>
+                            <path id="cross" d="M4 3.5L2.5 2 4 .5 3.5 0 2 1.5.5 0 0 .5 1.5 2 0 3.5l.5.5L2 2.5 3.5 4z"/>
+                            <path id="heart" d="M2.9 0c-.37 0-.7.18-.9.47C1.8.18 1.47 0 1.1 0 .49 0 0 .49 0 1.1 0 2.6 1.56 4 2 4s2-1.4 2-2.9C4 .49 3.51 0 2.9 0z"/>
+                            <path id="flake1" d="M5 2.1l.46-.19-.08-.71.64-.3-.09-.7.41-.2.25.38-.42.56.4.58-.42.57.3.4.49.06.28-.65.71.06.28-.65.45.03.03.45-.65.28.06.71-.65.27.06.5.4.3.57-.42.58.4.56-.42.38.25-.2.41-.7-.09-.3.64-.71-.08L7.9 5l.19.46.71-.08.3.64.7-.09.2.41-.38.25-.56-.42-.58.4-.57-.42-.4.3-.06.49.65.28-.06.71.65.28-.03.45-.45.03-.28-.65-.71.06-.27-.65-.5.06-.3.4.42.57-.4.58.42.56-.25.38-.41-.2.09-.7-.64-.3.08-.71L5 7.9l-.46.19.08.71-.64.3.09.7-.41.2-.25-.38.42-.56-.4-.58.42-.57-.3-.4-.49-.06-.28.65-.71-.06-.28.65-.45-.03-.03-.45.65-.28-.06-.71.65-.27-.06-.5-.4-.3-.57.42-.58-.4-.56.42L0 6.34l.2-.41.7.09.3-.64.71.08L2.1 5l-.19-.46-.71.08-.3-.64-.7.09-.2-.41.38-.25.56.42.58-.4.57.42.4-.3.06-.49-.65-.28.06-.71-.65-.28.03-.45.45-.03.28.65.71-.06.27.65.5-.06.3-.4-.42-.57.4-.58-.42-.56.25-.38.41.2-.09.7.64.3-.07.73z"/>
+                            <path id="flake2" d="M5 2.29l1.48-.08L6.36.17 7.5 0l.42 1.07-1.82.92.67 1.32.81 1.24 1.7-1.12.72.9-.72.9-1.7-1.12-.81 1.24-.67 1.32 1.82.92-.42 1.07-1.14-.17.12-2.04L5 6.38l-1.48.07.12 2.04-1.14.17-.42-1.07 1.82-.92-.67-1.32-.81-1.24-1.7 1.12-.72-.9.72-.9 1.7 1.12.81-1.24.67-1.32-1.82-.92L2.5 0l1.14.17-.04 2.12z"/>
+                            <path id="flake3" d="M5 3.3l.51-.45-.06-.91.71-.57L6.1.46 6.55 0l.09.64-.58.69.23.88-.58.7.15.67.68-.07.48-.76.91-.06.48-.77.64-.1-.3.57-.88.22-.33.84-.88.23-.27.63.58.34.85-.33.76.49.84-.34.58.29-.58.28-.84-.34-.76.49-.85-.33-.58.35.27.62.88.23.32.84.89.23.29.57-.63-.11-.48-.77-.91-.05L6.54 6l-.68-.06-.15.66.58.7-.23.88.58.7-.1.63-.44-.46.06-.9-.71-.58.06-.91L5 6.21l-.51.45.06.91-.71.57.06.91-.45.46-.09-.63.58-.7-.23-.88.58-.7-.15-.66-.68.06-.48.77-.91.05-.48.77-.64.1.3-.56.88-.23.33-.84.88-.23.27-.62-.58-.35-.85.33-.76-.49-.84.34L0 4.75l.58-.28.84.34.76-.49.85.33.58-.35-.27-.62-.88-.22-.32-.85-.89-.22-.29-.57.63.1.48.77.91.05.48.77.68.07.15-.67-.58-.7.23-.88-.58-.69.1-.64.44.46-.06.91.71.57-.06.92z"/>
+                            <mask id="merryMask"><rect class="merryMask" y="265" fill="#FFF" width="100%" height="60"/></mask>
+                        </defs>
+                        <mask id="strokeMask1"/>
+                        <mask id="strokeMask2"/>
+                        <mask id="strokeMask3"/>
+                        <g mask="url(#strokeMask1)" stroke="#F3F1E2">
+                            <path id="springStroke1" fill="none" stroke-width="32" stroke-miterlimit="10" d="M295.79 306.05c4.88-40 59.64-50.35 89.11-30.94 28.87 19.02 36.98 66.23 9.7 92.82-28.82 28.09-95.93 25.53-125.28 12.41-45.16-20.19-64.58-75.02-50.54-113.88 24.37-67.46 78.03-82.94 124.6-85.46 81.7-4.41 135.04 48.72 138.78 52.04C533.59 278.71 540.15 305 553.67 340"/>
+                        </g>
+                        <g mask="url(#strokeMask2)" stroke="#F3F1E2">
+                            <path id="springStroke2" fill="none" stroke-width="32" stroke-miterlimit="10" d="M301 299c-8.88-30.88-22.07-52.82-31.33-66-17.16-24.42-38.97-55.44-76-60.67-18.91-2.67-34.3 2.45-41.33 5.33-31.61 12.96-55.3 47.33-56.67 80-2.14 51.11 51.95 61.79 56.67 122.67.49 6.36 3.73 57.6-30.67 80-26.63 17.34-63.99 9.68-86-7.33C-8.02 419.23-2.38 340.44 33 297.67c44.67-54 125.35-28.28 158-12.67 89.2 42.67 161.66 21.25 242.67-8 55.39-20 122.28 9.4 156 34"/>
+                        </g>
+                        <g mask="url(#strokeMask3)" stroke="#F3F1E2">
+                            <path id="springStroke3" fill="none" stroke-width="32" stroke-miterlimit="10" d="M467.82 270.07c93.65-33.69 90.62-162.02 89.85-169.4-.22-2.15-.86-8.25-4.67-10 0 0-3.04-1.4-8 1.33-9.43 5.19-9.23 122.41-7.33 222"/>
+                        </g>
+                        <g id="merryGroup" fill="#F3F1E2">
+                            <path d="M86.61 290.78l-9 16.32c-.6 1.08-1.8 1.8-3.06 1.8-1.32 0-2.46-.72-3.06-1.8l-9-16.32V317c0 1.74-1.5 3.18-3.18 3.18-1.74 0-3.18-1.44-3.18-3.18v-36.6c0-1.92 1.62-3.48 3.48-3.48 1.38 0 2.52.78 3.12 1.86l11.82 21.12 11.82-21.12c.6-1.08 1.86-1.86 3.12-1.86 1.92 0 3.48 1.56 3.48 3.48V317c0 1.74-1.5 3.18-3.24 3.18-1.68 0-3.12-1.44-3.12-3.18v-26.22z"/>
+                            <path d="M105.03 319.57c-2.04 0-3.9-1.68-3.9-3.84v-34.38c0-2.04 1.74-3.84 3.9-3.84h17.4c1.74 0 3.12 1.38 3.12 3.12 0 1.68-1.38 2.94-3.12 2.94h-14.94v11.16h14.16c1.74 0 3.12 1.32 3.12 3.06 0 1.68-1.38 3-3.12 3h-14.16v12.72h15.36c1.68 0 3.12 1.32 3.12 3 0 1.74-1.44 3.06-3.12 3.06h-17.82z"/>
+                            <path d="M143.73 301.94h-5.4v15.12c0 1.74-1.5 3.12-3.18 3.12-1.74 0-3.18-1.38-3.18-3.12v-35.7c0-2.1 1.74-3.84 3.9-3.84h11.16c3.54 0 6.6 1.14 8.82 3.36 2.28 2.28 3.48 5.4 3.48 9 0 3.6-1.2 6.66-3.42 8.82-1.44 1.38-3.18 2.28-5.22 2.82l8.34 13.98c.3.48.48 1.08.48 1.62 0 1.56-1.44 3.06-3.12 3.06-1.08 0-2.1-.54-2.64-1.5l-10.02-16.74zm3.3-6.06c2.76 0 5.94-1.14 5.94-6 0-3.6-2.1-6.3-5.94-6.3h-8.7v12.3h8.7z"/>
+                            <path d="M176.97 301.94h-5.4v15.12c0 1.74-1.5 3.12-3.18 3.12-1.74 0-3.18-1.38-3.18-3.12v-35.7c0-2.1 1.74-3.84 3.9-3.84h11.16c3.54 0 6.6 1.14 8.82 3.36 2.28 2.28 3.48 5.4 3.48 9 0 3.6-1.2 6.66-3.42 8.82-1.44 1.38-3.18 2.28-5.22 2.82l8.34 13.98c.3.48.48 1.08.48 1.62 0 1.56-1.44 3.06-3.12 3.06-1.08 0-2.1-.54-2.64-1.5l-10.02-16.74zm3.3-6.06c2.76 0 5.94-1.14 5.94-6 0-3.6-2.1-6.3-5.94-6.3h-8.7v12.3h8.7z"/>
+                            <path d="M206.37 301.15l-11.58-19.56c-.3-.48-.42-1.02-.42-1.56 0-1.62 1.32-3.12 3.06-3.12 1.08 0 2.16.54 2.7 1.5l9.36 16.44 9.36-16.44c.54-.96 1.62-1.5 2.7-1.5 1.62 0 3.06 1.38 3.06 3.12 0 .54-.12 1.08-.42 1.56l-11.58 19.56v15.9c0 1.74-1.38 3.12-3.12 3.12-1.74 0-3.12-1.38-3.12-3.12v-15.9z"/>
+                            <path d="M243.15 292.46c0-9.3 6.24-15.54 15.48-15.54 3.24 0 6.36.96 9.24 2.82.9.6 1.44 1.56 1.44 2.58 0 1.62-1.38 2.94-3.12 2.94-.54 0-1.08-.18-1.62-.48-1.92-1.2-3.9-1.98-5.94-1.98-5.82 0-9.12 3.84-9.12 9.66v12.18c0 5.82 3.3 9.66 9.12 9.66 2.04 0 3.96-.84 5.88-2.04.54-.36 1.14-.54 1.74-.54 1.62 0 3.06 1.26 3.06 3 0 1.02-.54 2.04-1.44 2.64-2.88 1.86-6 2.82-9.24 2.82-9.24 0-15.48-6.24-15.48-15.54v-12.18z"/>
+                            <path d="M296.97 300.79h-15.6v16.2c0 1.74-1.44 3.18-3.12 3.18-1.74 0-3.24-1.44-3.24-3.18v-36.9c0-1.74 1.44-3.18 3.18-3.18 1.68 0 3.18 1.44 3.18 3.18v14.64h15.6V280.1c0-1.74 1.44-3.18 3.18-3.18 1.74 0 3.18 1.44 3.18 3.18V317c0 1.74-1.38 3.18-3.12 3.18-1.74 0-3.24-1.44-3.24-3.18v-16.21z"/>
+                            <path d="M323.25 301.94h-5.4v15.12c0 1.74-1.5 3.12-3.18 3.12-1.74 0-3.18-1.38-3.18-3.12v-35.7c0-2.1 1.74-3.84 3.9-3.84h11.16c3.54 0 6.6 1.14 8.82 3.36 2.28 2.28 3.48 5.4 3.48 9 0 3.6-1.2 6.66-3.42 8.82-1.44 1.38-3.18 2.28-5.22 2.82l8.34 13.98c.3.48.48 1.08.48 1.62 0 1.56-1.44 3.06-3.12 3.06-1.08 0-2.1-.54-2.64-1.5l-10.02-16.74zm3.3-6.06c2.76 0 5.94-1.14 5.94-6 0-3.6-2.1-6.3-5.94-6.3h-8.7v12.3h8.7z"/>
+                            <path d="M344.73 280.1c0-1.74 1.44-3.18 3.18-3.18 1.68 0 3.18 1.44 3.18 3.18V317c0 1.74-1.5 3.18-3.18 3.18-1.74 0-3.18-1.44-3.18-3.18v-36.9z"/>
+                            <path d="M364.59 298.75c-4.68-2.04-7.08-5.7-7.08-10.38 0-7.14 6.72-11.46 13.56-11.46 3.3 0 6.78.6 9.9 1.98 1.26.54 2.34 1.38 2.34 3.06 0 1.56-1.32 2.88-3 2.88-.36 0-.72-.06-1.14-.24-1.44-.54-3.54-1.8-8.4-1.8-2.94 0-6.84 1.2-6.84 5.28 0 2.82 1.38 4.08 3.78 5.16l6.84 3c4.56 1.98 8.88 4.8 8.88 11.22 0 7.26-5.22 12.72-13.32 12.72-3.54 0-7.62-.96-10.74-2.28-1.14-.48-1.86-1.5-1.86-2.82 0-1.68 1.08-3.06 2.88-3.06.78 0 1.38.18 1.92.42 2.46 1.08 4.98 1.86 7.8 1.86 4.32 0 6.9-2.1 6.9-6.06 0-3-2.52-5.1-5.22-6.3l-7.2-3.18z"/>
+                            <path d="M397.59 283.58h-8.88c-1.74 0-3.06-1.32-3.06-3 0-1.74 1.32-3.06 3.06-3.06h24.06c1.74 0 3.12 1.32 3.12 3.06 0 1.68-1.38 3-3.12 3h-8.82V317c0 1.74-1.44 3.18-3.18 3.18-1.74 0-3.18-1.44-3.18-3.18v-33.42z"/>
+                            <path d="M450.21 290.78l-9 16.32c-.6 1.08-1.8 1.8-3.06 1.8-1.32 0-2.46-.72-3.06-1.8l-9-16.32V317c0 1.74-1.5 3.18-3.18 3.18-1.74 0-3.18-1.44-3.18-3.18v-36.6c0-1.92 1.62-3.48 3.48-3.48 1.38 0 2.52.78 3.12 1.86l11.82 21.12 11.82-21.12c.6-1.08 1.86-1.86 3.12-1.86 1.92 0 3.48 1.56 3.48 3.48V317c0 1.74-1.5 3.18-3.24 3.18-1.68 0-3.12-1.44-3.12-3.18v-26.22z"/>
+                            <path d="M485.55 309.01h-14.76l-3.3 9.12c-.48 1.26-1.62 2.04-2.94 2.04-1.62 0-3.06-1.38-3.06-3.12 0-.36.06-.66.18-1.02l13.2-36.84c.48-1.26 1.8-2.28 3.3-2.28 1.38 0 2.82.96 3.3 2.34l13.2 36.78c.12.3.18.72.18 1.02 0 1.62-1.32 3.12-3.12 3.12-1.26 0-2.46-.78-2.94-2.04l-3.24-9.12zm-7.38-20.57l-5.22 14.52h10.44l-5.22-14.52z"/>
+                            <path d="M505.41 298.75c-4.68-2.04-7.08-5.7-7.08-10.38 0-7.14 6.72-11.46 13.56-11.46 3.3 0 6.78.6 9.9 1.98 1.26.54 2.34 1.38 2.34 3.06 0 1.56-1.32 2.88-3 2.88-.36 0-.72-.06-1.14-.24-1.44-.54-3.54-1.8-8.4-1.8-2.94 0-6.84 1.2-6.84 5.28 0 2.82 1.38 4.08 3.78 5.16l6.84 3c4.56 1.98 8.88 4.8 8.88 11.22 0 7.26-5.22 12.72-13.32 12.72-3.54 0-7.62-.96-10.74-2.28-1.14-.48-1.86-1.5-1.86-2.82 0-1.68 1.08-3.06 2.88-3.06.78 0 1.38.18 1.92.42 2.46 1.08 4.98 1.86 7.8 1.86 4.32 0 6.9-2.1 6.9-6.06 0-3-2.52-5.1-5.22-6.3l-7.2-3.18z"/>
+                        </g>
+                        <g id="particleContainer"/>
+                        <g id="letterI">
+                            <path fill="#F3F1E2" d="M533.19 316.27c0-2.16 1.74-3.9 3.9-3.9 2.1 0 3.84 1.74 3.84 3.9s-1.74 3.9-3.84 3.9c-2.16 0-3.9-1.74-3.9-3.9zm.78-36.23c0-1.74 1.38-3.12 3.12-3.12 1.68 0 3.06 1.38 3.06 3.12v23.76c0 1.68-1.38 3.06-3.06 3.06-1.74 0-3.12-1.38-3.12-3.06v-23.76z"/>
+                            <use class="endFlake" fill="#F3F1E2" xlink:href="#flake2" x="532" y="313"/>
+                            <use class="endFlake" fill="#F3F1E2" xlink:href="#flake3" x="532" y="313"/>
+                            <use class="endFlake" fill="#F3F1E2" xlink:href="#flake3" x="532" y="313"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            
+            <p class="subtitle">✨ Wishing You Joy & Happiness ✨</p>
+            
+            <!-- Personalized Greeting - Moved after animation for better visibility -->
+            <div class="greeting-from-to" id="greetingFromTo"></div>
+            
+            <div class="tree-container">
+                <div class="stars" id="stars"></div>
+                <div class="tree">🎄</div>
+                <div class="santa-wave-gif">
+                    <img src="https://i.gifer.com/3WGF.gif" alt="Santa Waving" onerror="this.parentElement.innerHTML='🎅';">
+                </div>
+            </div>
+            
+            <div class="message" id="message">
+                <!-- Random quote will be displayed here -->
+            </div>
+            
+            <button class="button" onclick="spreadTheJoy()">🎉 Spread the Joy!</button>
+            
+            <!-- Christmas Countdown -->
+            <div class="countdown-section">
+                <h3 class="countdown-title">⏰ Time Until Christmas</h3>
+                <div class="countdown-timer" id="countdownTimer">
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="days">0</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="hours">0</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="minutes">0</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="seconds">0</span>
+                        <span class="countdown-label">Seconds</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gift Box - Centered -->
+            <div class="gift-box" onclick="openGift()">
+                <div style="font-size: 5rem; text-align: center;">🎁</div>
+                <div style="font-size: 1rem; color: #ffd93d; margin-top: 10px; text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); font-weight: bold;">🎁 Open Your Gift! 🎁</div>
+                <div style="font-size: 0.8rem; color: #ffffff; margin-top: 5px; opacity: 0.8;">Click to solve puzzle and unlock!</div>
+            </div>
+            
+            <!-- Christmas Fun Facts Section -->
+            <div class="fun-facts-section">
+                <h3 class="section-title">🎄 Did You Know? 🎄</h3>
+                <div class="fun-fact" id="funFact">
+                    <!-- Fun fact will be displayed here -->
+                </div>
+                <button class="button fact-button" onclick="showNextFact()">✨ Another Fun Fact ✨</button>
+            </div>
+            
+            <!-- Interactive Christmas Card Section -->
+            <div class="interactive-section">
+                <h3 class="section-title">🎅 Send Your Wishes 🎅</h3>
+                <div class="wish-input-container">
+                    <input type="text" id="recipientName" placeholder="Enter recipient's name..." class="wish-input">
+                    <button class="button wish-button" onclick="shareWithName()">📱 Share on WhatsApp</button>
+                </div>
+                <p class="wish-hint">💡 Enter a name to personalize your greeting!</p>
+            </div>
+            
+            <!-- Copyright Footer -->
+            <div class="copyright-footer">
+                <div class="copyright-text" id="copyrightText">
+                    © <span id="copyrightYear"></span> Muneer. All Rights Reserved.
+                </div>
+                <a href="https://bit.ly/playstorefar" target="_blank" class="blog-link" id="blogLink" rel="noopener noreferrer">
+                    🌐 Visit My Blog
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Share Joy Modal -->
+    <div class="share-joy-modal" id="shareJoyModal">
+        <div class="share-joy-container">
+            <button class="share-joy-close" onclick="closeShareJoyModal()">×</button>
+            <h2 class="share-joy-title">🎉 Spread the Joy! 🎉</h2>
+            <p class="share-joy-subtitle">
+                Share this amazing Christmas greeting with your loved ones and spread the holiday spirit! ✨
+            </p>
+            <div class="share-joy-buttons">
+                <input type="text" id="shareJoyName" class="share-joy-input" placeholder="Enter recipient's name (optional)">
+                <button class="share-joy-button" onclick="shareJoyWithName()">
+                    📱 Share with Name on WhatsApp
+                </button>
+                <button class="share-joy-button secondary" onclick="shareJoyEveryone()">
+                    🌍 Share with Everyone
+                </button>
+            </div>
+            <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-top: 10px;">
+                💡 Leave name empty to share with everyone!
+            </p>
+        </div>
+    </div>
+    
+    <!-- Puzzle Game Modal -->
+    <div class="puzzle-modal" id="puzzleModal">
+        <div class="puzzle-container" style="position: relative;">
+            <button class="puzzle-close" onclick="closePuzzle()">×</button>
+            <h2 class="puzzle-title">🎁 Open Your Gift! 🎁</h2>
+            <p class="puzzle-instructions">
+                Solve this 3x3 puzzle to unlock your gift!<br>
+                Click tiles to move them. Arrange numbers 1-8 in order.
+            </p>
+            <div class="puzzle-game" id="puzzleGame"></div>
+            <div class="puzzle-success" id="puzzleSuccess">
+                🎉 Congratulations! Puzzle Solved! 🎉<br>
+                Redirecting to download Brain Battle...
+            </div>
+        </div>
+    </div>
+    
+    <!-- Sticky Bottom Bar with WhatsApp Share -->
+    <div class="bottom-bar">
+        <button class="button share" onclick="shareOnWhatsApp()">📱 Share on WhatsApp</button>
+    </div>
+
+    <script>
+        // Blog URL - francefaraz.github.io
+        // Link is already set in HTML, this is just for reference
+
+        // Set copyright year automatically
+        function setCopyrightYear() {
+            const yearElement = document.getElementById('copyrightYear');
+            if (yearElement) {
+                const currentYear = new Date().getFullYear();
+                yearElement.textContent = currentYear;
+            }
+        }
+
+        // Initialize copyright year on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setCopyrightYear);
+        } else {
+            setCopyrightYear();
+        }
+
+        // Get URL query parameters
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                from: params.get('from') || 'Myself Android (Muneer)',
+                to: params.get('to') || null
+            };
+        }
+
+        // Update URL with new parameters
+        function updateURLParams(newParams) {
+            const url = new URL(window.location.href);
+            Object.keys(newParams).forEach(key => {
+                if (newParams[key]) {
+                    url.searchParams.set(key, newParams[key]);
+                } else {
+                    url.searchParams.delete(key);
+                }
+            });
+            window.history.replaceState({}, '', url);
+        }
+
+        // Display personalized greeting
+        function displayPersonalizedGreeting() {
+            const params = getQueryParams();
+            const greetingEl = document.getElementById('greetingFromTo');
+            
+            if (params.to) {
+                greetingEl.innerHTML = `
+                    <div style="margin-bottom: 10px;">💌 A Special Greeting 💌</div>
+                    <div>
+                        <span style="color: rgba(255, 255, 255, 0.9);">From:</span> 
+                        <span class="from-name">${params.from}</span>
+                    </div>
+                    <div style="margin-top: 12px;">
+                        <span style="color: rgba(255, 255, 255, 0.9);">To:</span> 
+                        <span class="to-name">${params.to}</span>
+                    </div>
+                `;
+            } else {
+                greetingEl.innerHTML = `
+                    <div style="margin-bottom: 10px;">💌 Christmas Greeting 💌</div>
+                    <div>
+                        <span style="color: rgba(255, 255, 255, 0.9);">From:</span> 
+                        <span class="from-name">${params.from}</span>
+                    </div>
+                `;
+            }
+        }
+
+        // Prompt for name on load if "to" is missing
+        function promptForNameOnLoad() {
+            const params = getQueryParams();
+            if (!params.to) {
+                setTimeout(() => {
+                    const name = prompt("🎄 Enter your name:");
+                    if (name && name.trim()) {
+                        // Update URL with the name as "to"
+                        updateURLParams({ to: name.trim(), from: params.from });
+                        // Refresh the greeting display
+                        displayPersonalizedGreeting();
+                    }
+                }, 1000);
+            }
+        }
+
+        // Initialize personalized greeting on load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                displayPersonalizedGreeting();
+                promptForNameOnLoad();
+            });
+        } else {
+            displayPersonalizedGreeting();
+            promptForNameOnLoad();
+        }
+
+        // Global variable to track if music has started
+        let musicStarted = false;
+        let musicInteractionListeners = [];
+        let backgroundMusicSelected = false;
+
+        // Select random background music (carol.mp3 or christmas.mp3)
+        function selectBackgroundMusic() {
+            if (backgroundMusicSelected) return; // Only select once
+            
+            const audio = document.getElementById('carolAudio');
+            if (!audio) return;
+            
+            // Randomly choose between carol.mp3 and christmas.mp3
+            const musicFiles = ['carol.mp3', 'christmas.mp3'];
+            const selectedMusic = musicFiles[Math.floor(Math.random() * musicFiles.length)];
+            
+            // Set the source
+            audio.src = selectedMusic;
+            audio.volume = 0.5;
+            backgroundMusicSelected = true;
+            
+            console.log(`🎵 Selected background music: ${selectedMusic}`);
+        }
+
+        // Play background music with multiple fallback strategies
+        function playBackgroundMusic() {
+            const audio = document.getElementById('carolAudio');
+            if (!audio) return;
+            
+            // Select random background music if not already selected
+            if (!backgroundMusicSelected) {
+                selectBackgroundMusic();
+            }
+            
+            // If already playing, don't do anything
+            if (!audio.paused && !audio.muted) {
+                musicStarted = true;
+                return;
+            }
+            
+            audio.volume = 0.5;
+            
+            // Strategy 1: Try to play immediately
+            const playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        console.log('🎵 Music started playing automatically!');
+                        musicStarted = true;
+                        removeMusicListeners();
+                        updateMuteButtonState(false);
+                    })
+                    .catch(err => {
+                        console.log('Audio autoplay prevented by browser. Waiting for user interaction...');
+                        musicStarted = false;
+                        
+                        // Strategy 2: Add listeners for ANY user interaction
+                        setupMusicInteractionListeners();
+                        
+                        // Strategy 3: Show visual hint immediately
+                        showMusicHint();
+                    });
+            }
+        }
+
+        // Setup listeners for any user interaction to start music
+        function setupMusicInteractionListeners() {
+            const audio = document.getElementById('carolAudio');
+            if (!audio || musicStarted) return;
+            
+            const playOnInteraction = () => {
+                if (musicStarted) return;
+                
+                audio.play()
+                    .then(() => {
+                        console.log('🎵 Music started after user interaction!');
+                        musicStarted = true;
+                        removeMusicListeners();
+                        updateMuteButtonState(false);
+                    })
+                    .catch(err => {
+                        console.log('Still waiting for audio permission...', err);
+                    });
+            };
+            
+            // Add listeners for multiple interaction types
+            const events = ['click', 'touchstart', 'scroll', 'mousemove', 'keydown', 'touchmove'];
+            
+            events.forEach(eventType => {
+                document.addEventListener(eventType, playOnInteraction, { once: false, passive: true });
+                musicInteractionListeners.push({ type: eventType, handler: playOnInteraction });
+            });
+        }
+
+        // Remove all music interaction listeners
+        function removeMusicListeners() {
+            musicInteractionListeners.forEach(({ type, handler }) => {
+                document.removeEventListener(type, handler);
+            });
+            musicInteractionListeners = [];
+        }
+
+        // Show visual hint that music is waiting
+        function showMusicHint() {
+            const muteButton = document.getElementById('muteButton');
+            if (muteButton && !musicStarted) {
+                muteButton.style.animation = 'pulse 2s infinite';
+                muteButton.title = 'Click anywhere to start music!';
+                
+                // Add a tooltip or notification
+                setTimeout(() => {
+                    if (!musicStarted) {
+                        const hint = document.createElement('div');
+                        hint.id = 'musicHint';
+                        hint.style.cssText = `
+                            position: fixed;
+                            top: 80px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            background: rgba(255, 215, 0, 0.9);
+                            color: #000;
+                            padding: 12px 20px;
+                            border-radius: 25px;
+                            font-size: 0.9rem;
+                            font-weight: bold;
+                            z-index: 10000;
+                            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+                            animation: slideDown 0.5s ease-out;
+                            pointer-events: none;
+                        `;
+                        hint.textContent = '🎵 Click anywhere to start Christmas music! 🎵';
+                        document.body.appendChild(hint);
+                        
+                        // Remove hint after 5 seconds or when music starts
+                        setTimeout(() => {
+                            if (hint.parentNode) {
+                                hint.style.animation = 'slideDown 0.3s ease-out reverse';
+                                setTimeout(() => hint.remove(), 300);
+                            }
+                        }, 5000);
+                    }
+                }, 1500);
+            }
+        }
+
+        // Update mute button state
+        function updateMuteButtonState(removeAnimation) {
+            const muteButton = document.getElementById('muteButton');
+            if (muteButton) {
+                if (removeAnimation) {
+                    muteButton.style.animation = 'none';
+                }
+                muteButton.title = 'Click to mute/unmute music';
+            }
+            
+            // Remove music hint if exists
+            const hint = document.getElementById('musicHint');
+            if (hint) {
+                hint.remove();
+            }
+        }
+
+        // Add slideDown animation (only if not already added)
+        if (!document.getElementById('musicHintStyle')) {
+            const musicHintStyle = document.createElement('style');
+            musicHintStyle.id = 'musicHintStyle';
+            musicHintStyle.textContent = `
+                @keyframes slideDown {
+                    from {
+                        transform: translateX(-50%) translateY(-20px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(-50%) translateY(0);
+                        opacity: 1;
+                    }
+                }
+            `;
+            document.head.appendChild(musicHintStyle);
+        }
+        
+        // Add pulse animation for mute button hint (only if not already added)
+        if (!document.getElementById('pulseAnimationStyle')) {
+            const pulseStyle = document.createElement('style');
+            pulseStyle.id = 'pulseAnimationStyle';
+            pulseStyle.textContent = `
+                @keyframes pulse {
+                    0%, 100% { transform: scale(1); }
+                    50% { transform: scale(1.15); box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+                }
+            `;
+            document.head.appendChild(pulseStyle);
+        }
+
+        // Toggle Mute/Unmute - Also tries to start playback if paused
+        function toggleMute() {
+            const audio = document.getElementById('carolAudio');
+            const muteButton = document.getElementById('muteButton');
+            const muteIcon = document.getElementById('muteIcon');
+            
+            if (!audio) return;
+            
+            // If audio is paused, try to play it first (this is a user interaction!)
+            if (audio.paused) {
+                audio.play()
+                    .then(() => {
+                        console.log('🎵 Music started via mute button!');
+                        musicStarted = true;
+                        removeMusicListeners();
+                        updateMuteButtonState(true);
+                    })
+                    .catch(err => {
+                        console.log('Could not start audio:', err);
+                        // Don't show alert, just try again
+                    });
+            }
+            
+            // Toggle mute state
+            if (audio.muted) {
+                audio.muted = false;
+                muteIcon.textContent = '🔊';
+                muteButton.classList.remove('muted');
+                muteButton.title = 'Mute music';
+            } else {
+                audio.muted = true;
+                muteIcon.textContent = '🔇';
+                muteButton.classList.add('muted');
+                muteButton.title = 'Unmute music';
+            }
+        }
+
+        // Initialize CodePen Animation
+        function initCodePenAnimation() {
+            const container = document.querySelector('.container-inner');
+            const mainSVG = document.querySelector('.mainSVG');
+            if (!container || !mainSVG) return;
+
+            // Set container position
+            gsap.set(container, {
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                xPercent: -50,
+                yPercent: -50
+            });
+
+            // Make SVG visible
+            gsap.set("svg", { visibility: "visible" });
+            mainSVG.classList.add('visible');
+
+            // CodePen animation code (simplified version)
+            const merryGroup = document.querySelector("#merryGroup");
+            const springStroke1 = document.querySelector("#springStroke1");
+            const springStroke2 = document.querySelector("#springStroke2");
+            const springStroke3 = document.querySelector("#springStroke3");
+            const particleContainer = document.querySelector("#particleContainer");
+            const letterI = document.querySelector("#letterI");
+
+            if (merryGroup && springStroke1) {
+                // Animate the text appearing
+                gsap.fromTo("#merryGroup path", 
+                    { rotation: -95, alpha: 0, transformOrigin: "50% 150%" },
+                    { 
+                        rotation: 0, 
+                        alpha: 1, 
+                        duration: 0.9, 
+                        stagger: 0.036,
+                        ease: "elastic.out(2, 0.8)",
+                        delay: 1
+                    }
+                );
+
+                // Animate letter I
+                if (letterI) {
+                    gsap.fromTo("#letterI",
+                        { y: -200, alpha: 0 },
+                        { y: 0, alpha: 1, duration: 0.76, ease: "power4.in", delay: 2.3 }
+                    );
+                }
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            // Select and play background music
+            selectBackgroundMusic();
+            playBackgroundMusic();
+            setTimeout(initCodePenAnimation, 500);
+        });
+        
+        // Also try to play on DOMContentLoaded (earlier than load event)
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                selectBackgroundMusic();
+                setTimeout(playBackgroundMusic, 100);
+            });
+        } else {
+            // DOM already loaded
+            selectBackgroundMusic();
+            setTimeout(playBackgroundMusic, 100);
+        }
+
+        // Enhanced Snowflake Creation
+        function createSnowflake() {
+            const snow = document.getElementById('snow');
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + '%';
+            const duration = Math.random() * 3 + 3;
+            snowflake.style.animationDuration = duration + 's';
+            snowflake.style.opacity = Math.random() * 0.5 + 0.5;
+            snowflake.style.fontSize = (Math.random() * 15 + 12) + 'px';
+            snowflake.style.animationDelay = Math.random() * 2 + 's';
+            snow.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, (duration + 2) * 1000);
+        }
+
+        // Create snow particles
+        function createSnowParticle() {
+            const snow = document.getElementById('snow');
+            const particle = document.createElement('div');
+            particle.className = 'snow-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            const duration = Math.random() * 4 + 3;
+            particle.style.animationDuration = duration + 's';
+            particle.style.opacity = Math.random() * 0.4 + 0.3;
+            particle.style.width = (Math.random() * 3 + 2) + 'px';
+            particle.style.height = particle.style.width;
+            snow.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
+        }
+
+        // Initialize spring animation
+        function initSpringAnimation() {
+            const strokes = document.querySelectorAll('.spring-stroke');
+            strokes.forEach((stroke, index) => {
+                const pathLength = stroke.getTotalLength();
+                stroke.style.strokeDasharray = pathLength;
+                stroke.style.strokeDashoffset = pathLength;
+                
+                // Animate stroke
+                setTimeout(() => {
+                    stroke.style.transition = 'stroke-dashoffset 2s ease-out';
+                    stroke.style.strokeDashoffset = 0;
+                }, index * 500 + 500);
+            });
+        }
+
+        // Create stars around tree
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 8;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.innerHTML = '⭐';
+                star.style.left = (Math.random() * 100) + '%';
+                star.style.top = (Math.random() * 100) + '%';
+                star.style.animationDelay = (Math.random() * 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Create floating ornaments
+        function createOrnaments() {
+            const ornamentsContainer = document.getElementById('ornaments');
+            const colors = ['red', 'gold', 'green'];
+            const count = 12;
+            
+            for (let i = 0; i < count; i++) {
+                const ornament = document.createElement('div');
+                ornament.className = `ornament ${colors[Math.floor(Math.random() * colors.length)]}`;
+                ornament.style.left = (Math.random() * 100) + '%';
+                ornament.style.top = (Math.random() * 100) + '%';
+                ornament.style.animationDelay = (Math.random() * 3) + 's';
+                ornament.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                ornamentsContainer.appendChild(ornament);
+            }
+        }
+
+        // Play Chime Function
+        let audioCtx = null;
+        function playChime() {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            audioCtx = audioCtx || new AC();
+            const t = audioCtx.currentTime;
+            const master = audioCtx.createGain();
+            master.gain.value = 0.8;
+            master.connect(audioCtx.destination);
+            const delay = audioCtx.createDelay(0.3);
+            delay.delayTime.value = 0.18;
+            const fb = audioCtx.createGain();
+            fb.gain.value = 0.25;
+            master.connect(delay);
+            delay.connect(fb);
+            fb.connect(delay);
+            delay.connect(audioCtx.destination);
+            function tone(f, start, d, type) {
+                const osc = audioCtx.createOscillator();
+                const g = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.value = f;
+                osc.connect(g);
+                g.connect(master);
+                g.gain.setValueAtTime(0, t + start);
+                g.gain.linearRampToValueAtTime(0.9, t + start + 0.02);
+                g.gain.exponentialRampToValueAtTime(0.001, t + start + d);
+                osc.start(t + start);
+                osc.stop(t + start + d + 0.05);
+            }
+            tone(659, 0, 0.6, "triangle");
+            tone(987, 0.05, 0.5, "triangle");
+            tone(1319, 0.12, 0.4, "triangle");
+            tone(1760, 0.22, 0.25, "sine");
+        }
+
+        // Create confetti
+        function createConfetti() {
+            // Play chime when spreading joy
+            playChime();
+            
+            const colors = ['#ff6b6b', '#ffd93d', '#6bcf7f', '#4ecdc4', '#ff8e8e', '#ffd700'];
+            const confettiCount = 50;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        // Play button click sound (merry_christmas.mp3)
+        function playButtonClickSound() {
+            const buttonAudio = document.getElementById('buttonClickAudio');
+            if (buttonAudio) {
+                buttonAudio.currentTime = 0; // Restart from beginning
+                buttonAudio.volume = 0.7; // Slightly louder for button clicks
+                buttonAudio.play().catch(err => {
+                    console.log('Button click audio error:', err);
+                });
+            }
+        }
+
+        // Enhanced "Spread the Joy" function - BEST UX APPROACH
+        function spreadTheJoy() {
+            // 0. Start/ensure background music is playing (user interaction!)
+            const audio = document.getElementById('carolAudio');
+            if (audio && !musicStarted) {
+                playBackgroundMusic();
+            }
+            
+            // 0.5. Play button click sound (merry_christmas.mp3)
+            playButtonClickSound();
+            
+            // 1. Play chime sound
+            playChime();
+            
+            // 2. Create extra confetti (more than normal) for celebration
+            const colors = ['#ff6b6b', '#ffd93d', '#6bcf7f', '#4ecdc4', '#ff8e8e', '#ffd700', '#ff69b4', '#00ced1'];
+            const confettiCount = 100; // More confetti for celebration!
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                confetti.style.width = (Math.random() * 8 + 6) + 'px';
+                confetti.style.height = confetti.style.width;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 4000);
+            }
+            
+            // 3. Change the message to a new one
+            changeMessage();
+            
+            // 4. Show beautiful share modal after celebration (1 second delay)
+            setTimeout(() => {
+                openShareJoyModal();
+            }, 1000);
+        }
+
+        // Open Share Joy Modal
+        function openShareJoyModal() {
+            const modal = document.getElementById('shareJoyModal');
+            if (modal) {
+                modal.classList.add('active');
+                // Clear input field
+                const nameInput = document.getElementById('shareJoyName');
+                if (nameInput) {
+                    nameInput.value = '';
+                    nameInput.focus();
+                }
+            }
+        }
+
+        // Close Share Joy Modal
+        function closeShareJoyModal() {
+            const modal = document.getElementById('shareJoyModal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        // Share with name from modal
+        function shareJoyWithName() {
+            // Start/ensure background music is playing (user interaction!)
+            const audio = document.getElementById('carolAudio');
+            if (audio && !musicStarted) {
+                playBackgroundMusic();
+            }
+            
+            // Play button click sound (merry_christmas.mp3)
+            playButtonClickSound();
+            
+            const recipientName = document.getElementById('shareJoyName').value.trim();
+            const currentParams = getQueryParams();
+            const baseUrl = window.location.origin + window.location.pathname;
+            
+            if (!recipientName) {
+                // If no name, share with everyone
+                shareJoyEveryone();
+                return;
+            }
+            
+            // Create personalized URL
+            const newFrom = currentParams.to || currentParams.from;
+            const shareUrl = `${baseUrl}?from=${encodeURIComponent(newFrom)}&to=${encodeURIComponent(recipientName)}`;
+            
+            // Create personalized message
+            let shareText = `🎄🎁 Merry Christmas ${recipientName}! 🎁🎄\n\n`;
+            shareText += `${newFrom} sent you a special Christmas greeting!\n\n`;
+            shareText += "✨ Open this link to see your personalized message! ✨";
+            
+            // Encode and redirect to WhatsApp
+            const encodedText = encodeURIComponent(shareText);
+            const encodedUrl = encodeURIComponent(shareUrl);
+            const whatsappUrl = `https://wa.me/?text=${encodedText}%20${encodedUrl}`;
+            
+            window.open(whatsappUrl, '_blank');
+            closeShareJoyModal();
+        }
+
+        // Share with everyone from modal
+        function shareJoyEveryone() {
+            // Start/ensure background music is playing (user interaction!)
+            const audio = document.getElementById('carolAudio');
+            if (audio && !musicStarted) {
+                playBackgroundMusic();
+            }
+            
+            // Play button click sound (merry_christmas.mp3)
+            playButtonClickSound();
+            
+            const currentParams = getQueryParams();
+            const baseUrl = window.location.origin + window.location.pathname;
+            
+            // Create share text
+            let shareText = "🎄🎁 Merry Christmas! 🎁🎄\n\n";
+            shareText += "Check out this amazing Christmas greeting and share the joy with everyone!\n\n";
+            shareText += "✨ Spread the Christmas spirit! ✨";
+            
+            // Create URL without personalization (for everyone)
+            const shareUrl = baseUrl;
+            
+            // Encode and redirect to WhatsApp
+            const encodedText = encodeURIComponent(shareText);
+            const encodedUrl = encodeURIComponent(shareUrl);
+            const whatsappUrl = `https://wa.me/?text=${encodedText}%20${encodedUrl}`;
+            
+            window.open(whatsappUrl, '_blank');
+            closeShareJoyModal();
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('DOMContentLoaded', () => {
+            const shareModal = document.getElementById('shareJoyModal');
+            if (shareModal) {
+                shareModal.addEventListener('click', (e) => {
+                    if (e.target.id === 'shareJoyModal') {
+                        closeShareJoyModal();
+                    }
+                });
+            }
+            
+            // Allow Enter key in name input
+            const shareNameInput = document.getElementById('shareJoyName');
+            if (shareNameInput) {
+                shareNameInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        shareJoyWithName();
+                    }
+                });
+            }
+        });
+
+        // Random Christmas Wishes & Quotes
+        const messages = [
+            "I hope your holiday season is full of peace, joy and happiness. 🎄",
+            "May this Christmas bring you endless joy,<br>wonderful memories, and all the happiness<br>your heart can hold! 🎁",
+            "Wishing you peace, love, and laughter<br>this Christmas season! May your holidays<br>be filled with warmth and cheer! ❄️",
+            "May the magic of Christmas fill your heart<br>with joy and your home with happiness!<br>Have a wonderful holiday! 🎄",
+            "Sending you warm wishes for a<br>Merry Christmas and a Happy New Year!<br>May all your dreams come true! ✨",
+            "May your Christmas be filled with<br>laughter, love, and the warmth of family!<br>Wishing you all the best! 🎅",
+            "Hope your holiday season is bright<br>and filled with wonderful moments<br>that bring you joy! 🌟",
+            "May the spirit of Christmas bring you<br>peace, the gladness of Christmas give you hope,<br>and the warmth of Christmas grant you love! ❤️",
+            "Wishing you a Christmas filled with<br>happiness, health, and prosperity!<br>May all your wishes come true! 🎊",
+            "May this festive season sparkle and shine,<br>may all of your wishes and dreams come true,<br>and may you feel this happiness all year through! ⭐",
+            "Sending you heartfelt wishes for<br>a Merry Christmas and a New Year<br>filled with success and happiness! 🎉",
+            "May the Christmas season fill your home<br>with joy, your heart with love,<br>and your life with laughter! 🎄",
+            "Wishing you a Christmas that's merry and bright,<br>and a New Year that brings you<br>everything you hope for! 🌟",
+            "May the joy and peace of Christmas<br>be with you today and throughout the New Year!<br>Have a blessed holiday season! ✨",
+            "Hope your Christmas is wrapped in happiness<br>and tied with love! May all your dreams<br>and wishes come true this holiday season! 🎁"
+        ];
+
+        function changeMessage() {
+            const messageEl = document.getElementById('message');
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            messageEl.style.opacity = '0';
+            setTimeout(() => {
+                messageEl.innerHTML = randomMessage;
+                messageEl.style.opacity = '1';
+            }, 300);
+        }
+
+        // Display random message on page load
+        function displayRandomMessage() {
+            const messageEl = document.getElementById('message');
+            if (messageEl) {
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                messageEl.innerHTML = randomMessage;
+            }
+        }
+
+        // Initialize
+        setInterval(createSnowflake, 300);
+        setInterval(createSnowParticle, 200);
+        createStars();
+        createOrnaments();
+        
+        // Display random message on page load
+        displayRandomMessage();
+        
+        // Change message every 5 seconds
+        setInterval(changeMessage, 5000);
+
+        // Add click interaction to tree
+        document.querySelector('.tree').addEventListener('click', () => {
+            createConfetti();
+        });
+
+        // OLD WhatsApp Share Function - COMMENTED OUT
+        /*
+        function shareOnWhatsApp() {
+            const currentParams = getQueryParams();
+            
+            // Ask if user wants to personalize or send to all
+            const shareOption = confirm("🎄 Do you want to personalize this greeting with a name?\n\nClick OK to personalize\nClick Cancel to share with everyone");
+            
+            let shareUrl = window.location.href;
+            let shareText = "🎄 Check out this amazing Christmas greeting! 🎁";
+            
+            if (shareOption) {
+                // User wants to personalize
+                const recipientName = prompt("Enter the recipient's name:");
+                if (recipientName && recipientName.trim()) {
+                    // Create new URL with:
+                    // - from: current "to" name (or current "from" if no "to")
+                    // - to: new recipient name
+                    const newFrom = currentParams.to || currentParams.from;
+                    const newTo = recipientName.trim();
+                    
+                    // Create new URL with updated params
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('from', newFrom);
+                    url.searchParams.set('to', newTo);
+                    shareUrl = url.toString();
+                    
+                    shareText = `🎄 ${newFrom} sent you a special Christmas greeting! 🎁`;
+                } else {
+                    // User cancelled name entry, share without personalization
+                    shareText = "🎄 Check out this amazing Christmas greeting! 🎁";
+                }
+            } else {
+                // User wants to share with everyone (remove personalization)
+                const url = new URL(window.location.href);
+                url.searchParams.delete('to');
+                url.searchParams.set('from', currentParams.to || currentParams.from);
+                shareUrl = url.toString();
+            }
+            
+            const encodedText = encodeURIComponent(shareText);
+            const encodedUrl = encodeURIComponent(shareUrl);
+            const whatsappUrl = `https://wa.me/?text=${encodedText}%20${encodedUrl}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        */
+
+        // NEW Simplified WhatsApp Share - Share with everyone
+        // NOTE: URL automatically adapts to wherever the page is hosted!
+        // Uses window.location to get current domain and path dynamically
+        function shareOnWhatsApp() {
+            // Start/ensure background music is playing (user interaction!)
+            const audio = document.getElementById('carolAudio');
+            if (audio && !musicStarted) {
+                playBackgroundMusic();
+            }
+            
+            // Play button click sound (merry_christmas.mp3)
+            playButtonClickSound();
+            
+            const currentParams = getQueryParams();
+            // Automatically gets the current URL (works on any hosting)
+            const baseUrl = window.location.origin + window.location.pathname;
+            
+            // Create share text
+            let shareText = "🎄🎁 Merry Christmas! 🎁🎄\n\n";
+            shareText += "Check out this amazing Christmas greeting and share the joy with everyone!\n\n";
+            shareText += "✨ Spread the Christmas spirit! ✨";
+            
+            // Create URL without personalization (for everyone)
+            const shareUrl = baseUrl;
+            
+            // Encode and redirect to WhatsApp
+            const encodedText = encodeURIComponent(shareText);
+            const encodedUrl = encodeURIComponent(shareUrl);
+            const whatsappUrl = `https://wa.me/?text=${encodedText}%20${encodedUrl}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Share with recipient name (from input field)
+        // NOTE: URL automatically adapts to wherever the page is hosted!
+        function shareWithName() {
+            const recipientName = document.getElementById('recipientName').value.trim();
+            const currentParams = getQueryParams();
+            // Automatically gets the current URL (works on any hosting)
+            const baseUrl = window.location.origin + window.location.pathname;
+            
+            if (!recipientName) {
+                alert("🎄 Please enter a recipient's name to personalize your greeting!");
+                return;
+            }
+            
+            // Create personalized URL
+            const newFrom = currentParams.to || currentParams.from;
+            const shareUrl = `${baseUrl}?from=${encodeURIComponent(newFrom)}&to=${encodeURIComponent(recipientName)}`;
+            
+            // Create personalized message
+            let shareText = `🎄🎁 Merry Christmas ${recipientName}! 🎁🎄\n\n`;
+            shareText += `${newFrom} sent you a special Christmas greeting!\n\n`;
+            shareText += "✨ Open this link to see your personalized message! ✨";
+            
+            // Encode and redirect to WhatsApp
+            const encodedText = encodeURIComponent(shareText);
+            const encodedUrl = encodeURIComponent(shareUrl);
+            const whatsappUrl = `https://wa.me/?text=${encodedText}%20${encodedUrl}`;
+            
+            window.open(whatsappUrl, '_blank');
+            
+            // Clear input after sharing
+            document.getElementById('recipientName').value = '';
+        }
+
+        // Copy link to clipboard
+        function copyLink() {
+            const url = window.location.href;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('✅ Link copied to clipboard! Share it with your friends! 🎉');
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(url);
+                });
+            } else {
+                fallbackCopyTextToClipboard(url);
+            }
+        }
+
+        // Fallback copy function
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                alert('✅ Link copied to clipboard! Share it with your friends! 🎉');
+            } catch (err) {
+                alert('❌ Failed to copy. Please copy this link manually: ' + text);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Auto-create confetti on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                createConfetti();
+            }, 1000);
+        });
+
+        // Add more interactive elements - click anywhere for confetti
+        let clickCount = 0;
+        document.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'BUTTON' && !e.target.closest('.puzzle-modal') && !e.target.closest('.gift-box')) {
+                clickCount++;
+                if (clickCount % 3 === 0) {
+                    createConfetti();
+                }
+            }
+        });
+
+        // Puzzle Game Logic
+        let puzzleBoard = [1, 2, 3, 4, 5, 6, 7, 8, 0]; // 0 represents empty space
+        const solvedState = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+        const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=far.munexa.brainbattle&hl=en_IN';
+
+        // Shuffle puzzle (solvable shuffle)
+        function shufflePuzzle() {
+            // Fisher-Yates shuffle with solvability check
+            let shuffled = [...puzzleBoard];
+            do {
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+            } while (!isSolvable(shuffled) || arraysEqual(shuffled, solvedState));
+            
+            puzzleBoard = shuffled;
+        }
+
+        // Check if puzzle is solvable
+        function isSolvable(arr) {
+            let inversions = 0;
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = i + 1; j < arr.length; j++) {
+                    if (arr[i] !== 0 && arr[j] !== 0 && arr[i] > arr[j]) {
+                        inversions++;
+                    }
+                }
+            }
+            return inversions % 2 === 0;
+        }
+
+        // Check if arrays are equal
+        function arraysEqual(a, b) {
+            return a.length === b.length && a.every((val, index) => val === b[index]);
+        }
+
+        // Get empty tile position
+        function getEmptyIndex() {
+            return puzzleBoard.indexOf(0);
+        }
+
+        // Check if tile can move
+        function canMove(index) {
+            const emptyIndex = getEmptyIndex();
+            const row = Math.floor(index / 3);
+            const col = index % 3;
+            const emptyRow = Math.floor(emptyIndex / 3);
+            const emptyCol = emptyIndex % 3;
+            
+            // Check if adjacent (same row or same column, one position away)
+            return (row === emptyRow && Math.abs(col - emptyCol) === 1) ||
+                   (col === emptyCol && Math.abs(row - emptyRow) === 1);
+        }
+
+        // Move tile
+        function moveTile(index) {
+            if (canMove(index)) {
+                const emptyIndex = getEmptyIndex();
+                [puzzleBoard[index], puzzleBoard[emptyIndex]] = [puzzleBoard[emptyIndex], puzzleBoard[index]];
+                renderPuzzle();
+                checkWin();
+            }
+        }
+
+        // Render puzzle
+        function renderPuzzle() {
+            const gameContainer = document.getElementById('puzzleGame');
+            gameContainer.innerHTML = '';
+            
+            puzzleBoard.forEach((value, index) => {
+                const tile = document.createElement('div');
+                tile.className = 'puzzle-tile' + (value === 0 ? ' empty' : '');
+                tile.textContent = value === 0 ? '' : value;
+                tile.onclick = () => moveTile(index);
+                gameContainer.appendChild(tile);
+            });
+        }
+
+        // Check if puzzle is solved
+        function checkWin() {
+            if (arraysEqual(puzzleBoard, solvedState)) {
+                const successMsg = document.getElementById('puzzleSuccess');
+                successMsg.classList.add('active');
+                
+                // Redirect to Play Store after 2 seconds
+                setTimeout(() => {
+                    window.open(PLAY_STORE_URL, '_blank');
+                    closePuzzle();
+                }, 2000);
+            }
+        }
+
+        // Open gift (show puzzle)
+        function openGift() {
+            const modal = document.getElementById('puzzleModal');
+            modal.classList.add('active');
+            shufflePuzzle();
+            renderPuzzle();
+            document.getElementById('puzzleSuccess').classList.remove('active');
+        }
+
+        // Close puzzle modal
+        function closePuzzle() {
+            const modal = document.getElementById('puzzleModal');
+            modal.classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('puzzleModal').addEventListener('click', (e) => {
+            if (e.target.id === 'puzzleModal') {
+                closePuzzle();
+            }
+        });
+
+        // Christmas Countdown Timer
+        function updateCountdown() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            let christmas = new Date(currentYear, 11, 25, 0, 0, 0); // December 25
+            
+            // If Christmas has passed this year, set it for next year
+            if (now > christmas) {
+                christmas = new Date(currentYear + 1, 11, 25, 0, 0, 0);
+            }
+            
+            const diff = christmas - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+
+        // Christmas Fun Facts
+        const funFacts = [
+            "🎄 The tradition of Christmas trees started in Germany in the 16th century!",
+            "🎅 Santa Claus is based on Saint Nicholas, a 4th-century Greek bishop known for his generosity!",
+            "🎁 The first Christmas card was sent in 1843 by Sir Henry Cole in London!",
+            "❄️ 'Jingle Bells' was originally written for Thanksgiving, not Christmas!",
+            "🦌 Reindeer are the only mammals that can see UV light, helping them find food in winter!",
+            "🎄 The world's tallest Christmas tree was 221 feet tall, displayed in Seattle in 1950!",
+            "🎁 The tradition of gift-giving comes from the Three Wise Men bringing gifts to baby Jesus!",
+            "🎅 In Finland, Santa Claus is said to live in Korvatunturi, near the Arctic Circle!",
+            "❄️ The word 'Christmas' comes from 'Cristes Maesse', meaning 'Christ's Mass'!",
+            "🎄 The first artificial Christmas tree was made in Germany in the 19th century using goose feathers!",
+            "🎁 The largest Christmas stocking was 106 feet long and 49 feet wide!",
+            "🎅 Rudolph the Red-Nosed Reindeer was created in 1939 for a department store promotion!",
+            "❄️ In Iceland, 13 Santas called 'Yule Lads' visit children during Christmas!",
+            "🎄 The tradition of hanging stockings comes from the story of Saint Nicholas helping three poor sisters!",
+            "🎁 The first Christmas was celebrated on December 25th in the year 336 AD!"
+        ];
+
+        let currentFactIndex = 0;
+
+        function showNextFact() {
+            currentFactIndex = (currentFactIndex + 1) % funFacts.length;
+            const factEl = document.getElementById('funFact');
+            factEl.style.opacity = '0';
+            setTimeout(() => {
+                factEl.textContent = funFacts[currentFactIndex];
+                factEl.style.opacity = '1';
+            }, 300);
+        }
+
+        // Initialize fun fact on load
+        window.addEventListener('load', () => {
+            const factEl = document.getElementById('funFact');
+            if (factEl) {
+                currentFactIndex = Math.floor(Math.random() * funFacts.length);
+                factEl.textContent = funFacts[currentFactIndex];
+            }
+        });
+
+        // Allow Enter key to submit name in input field
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameInput = document.getElementById('recipientName');
+            if (nameInput) {
+                nameInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        shareWithName();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
