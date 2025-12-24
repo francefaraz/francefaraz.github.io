@@ -396,8 +396,27 @@
         }
 
         .bottom-bar .button {
-            margin: 0;
+            margin: 0 5px;
             width: auto;
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        .bottom-bar {
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .bottom-bar {
+                flex-wrap: wrap;
+                padding: 12px 15px;
+            }
+            .bottom-bar .button {
+                margin: 5px;
+                max-width: none;
+                flex: 1 1 calc(50% - 10px);
+                min-width: 140px;
+            }
         }
 
         /* Personalized Greeting - Enhanced Card Style */
@@ -1449,11 +1468,17 @@
                     📱 Share with Name on WhatsApp
                 </button>
                 <button class="share-joy-button secondary" onclick="shareJoyEveryone()">
-                    🌍 Share with Everyone
+                    🌍 Share with Everyone on WhatsApp
+                </button>
+                <button class="share-joy-button" style="background: linear-gradient(45deg, #667eea, #764ba2);" onclick="copyShareLink()">
+                    📋 Copy Link
+                </button>
+                <button class="share-joy-button secondary" style="background: linear-gradient(45deg, #f093fb, #f5576c);" onclick="generalShare()">
+                    🔗 Share via...
                 </button>
             </div>
             <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-top: 10px;">
-                💡 Leave name empty to share with everyone!
+                💡 Leave name empty to share with everyone! Use "Share via..." for Gmail, Teams, and more!
             </p>
         </div>
     </div>
@@ -1475,9 +1500,10 @@
         </div>
     </div>
     
-    <!-- Sticky Bottom Bar with WhatsApp Share -->
+    <!-- Sticky Bottom Bar with Share Options -->
     <div class="bottom-bar">
         <button class="button share" onclick="shareOnWhatsApp()">📱 Share on WhatsApp</button>
+        <button class="button" style="background: linear-gradient(45deg, #f093fb, #f5576c); box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);" onclick="generalShare()">🔗 Share via...</button>
     </div>
 
     <script>
@@ -2156,13 +2182,16 @@
             const currentParams = getQueryParams();
             const baseUrl = window.location.origin + window.location.pathname;
             
+            // Use current "to" name as new "from" (or current "from" if no "to")
+            const newFrom = currentParams.to || currentParams.from;
+            
             // Create share text
             let shareText = "🎄🎁 Merry Christmas! 🎁🎄\n\n";
             shareText += "Check out this amazing Christmas greeting and share the joy with everyone!\n\n";
             shareText += "✨ Spread the Christmas spirit! ✨";
             
-            // Create URL without personalization (for everyone)
-            const shareUrl = baseUrl;
+            // Create URL with "from" set to current "to" name (no "to" parameter for everyone)
+            const shareUrl = `${baseUrl}?from=${encodeURIComponent(newFrom)}`;
             
             // Encode and redirect to WhatsApp
             const encodedText = encodeURIComponent(shareText);
@@ -2314,13 +2343,16 @@
             // Automatically gets the current URL (works on any hosting)
             const baseUrl = window.location.origin + window.location.pathname;
             
+            // Use current "to" name as new "from" (or current "from" if no "to")
+            const newFrom = currentParams.to || currentParams.from;
+            
             // Create share text
             let shareText = "🎄🎁 Merry Christmas! 🎁🎄\n\n";
             shareText += "Check out this amazing Christmas greeting and share the joy with everyone!\n\n";
             shareText += "✨ Spread the Christmas spirit! ✨";
             
-            // Create URL without personalization (for everyone)
-            const shareUrl = baseUrl;
+            // Create URL with "from" set to current "to" name (no "to" parameter for everyone)
+            const shareUrl = `${baseUrl}?from=${encodeURIComponent(newFrom)}`;
             
             // Encode and redirect to WhatsApp
             const encodedText = encodeURIComponent(shareText);
@@ -2363,12 +2395,137 @@
             document.getElementById('recipientName').value = '';
         }
 
-        // Copy link to clipboard
+        // Copy share link to clipboard (with proper from parameter)
+        function copyShareLink() {
+            // Play button click sound
+            playButtonClickSound();
+            
+            const currentParams = getQueryParams();
+            const baseUrl = window.location.origin + window.location.pathname;
+            
+            // Use current "to" name as new "from" (or current "from" if no "to")
+            const newFrom = currentParams.to || currentParams.from;
+            
+            // Create URL with "from" set to current "to" name (no "to" parameter for everyone)
+            const shareUrl = `${baseUrl}?from=${encodeURIComponent(newFrom)}`;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    // Show success notification
+                    showNotification('✅ Link copied to clipboard! Share it with your friends! 🎉');
+                    closeShareJoyModal();
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(shareUrl);
+                });
+            } else {
+                fallbackCopyTextToClipboard(shareUrl);
+            }
+        }
+
+        // General share using Web Share API (works on mobile and desktop)
+        function generalShare() {
+            // Play button click sound
+            playButtonClickSound();
+            
+            const currentParams = getQueryParams();
+            const baseUrl = window.location.origin + window.location.pathname;
+            
+            // Use current "to" name as new "from" (or current "from" if no "to")
+            const newFrom = currentParams.to || currentParams.from;
+            
+            // Create URL with "from" set to current "to" name (no "to" parameter for everyone)
+            const shareUrl = `${baseUrl}?from=${encodeURIComponent(newFrom)}`;
+            
+            // Create share text
+            let shareText = "🎄🎁 Merry Christmas! 🎁🎄\n\n";
+            shareText += "Check out this amazing Christmas greeting and share the joy with everyone!\n\n";
+            shareText += "✨ Spread the Christmas spirit! ✨\n\n";
+            shareText += shareUrl;
+            
+            // Check if Web Share API is supported
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Merry Christmas! 🎄',
+                    text: shareText,
+                    url: shareUrl
+                }).then(() => {
+                    console.log('✅ Share successful!');
+                    closeShareJoyModal();
+                }).catch((error) => {
+                    console.log('Share failed:', error);
+                    // Fallback to copy link if share is cancelled or fails
+                    copyShareLink();
+                });
+            } else {
+                // Fallback: copy link if Web Share API is not supported
+                showNotification('📋 Web Share not available. Copying link instead...');
+                copyShareLink();
+            }
+        }
+
+        // Show notification (better than alert)
+        function showNotification(message) {
+            // Remove existing notification if any
+            const existing = document.getElementById('shareNotification');
+            if (existing) {
+                existing.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.id = 'shareNotification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(255, 215, 0, 0.95);
+                color: #000;
+                padding: 15px 25px;
+                border-radius: 25px;
+                font-size: 1rem;
+                font-weight: bold;
+                z-index: 10000;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+                animation: slideDownNotification 0.3s ease-out;
+                pointer-events: none;
+                max-width: 90%;
+                text-align: center;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideDownNotification 0.3s ease-out reverse';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Add notification animation
+        if (!document.getElementById('notificationStyle')) {
+            const style = document.createElement('style');
+            style.id = 'notificationStyle';
+            style.textContent = `
+                @keyframes slideDownNotification {
+                    from {
+                        transform: translateX(-50%) translateY(-20px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(-50%) translateY(0);
+                        opacity: 1;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        // Copy link to clipboard (old function - kept for compatibility)
         function copyLink() {
             const url = window.location.href;
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(url).then(() => {
-                    alert('✅ Link copied to clipboard! Share it with your friends! 🎉');
+                    showNotification('✅ Link copied to clipboard! Share it with your friends! 🎉');
                 }).catch(() => {
                     fallbackCopyTextToClipboard(url);
                 });
@@ -2388,9 +2545,9 @@
             textArea.select();
             try {
                 document.execCommand('copy');
-                alert('✅ Link copied to clipboard! Share it with your friends! 🎉');
+                showNotification('✅ Link copied to clipboard! Share it with your friends! 🎉');
             } catch (err) {
-                alert('❌ Failed to copy. Please copy this link manually: ' + text);
+                showNotification('❌ Failed to copy. Please copy this link manually: ' + text);
             }
             document.body.removeChild(textArea);
         }
