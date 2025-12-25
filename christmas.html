@@ -2689,11 +2689,67 @@
         function updateCountdown() {
             const now = new Date();
             const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth(); // 0-11 (0 = January, 11 = December)
+            const currentDate = now.getDate();
+            
+            const countdownTitle = document.querySelector('.countdown-title');
+            const countdownTimer = document.getElementById('countdownTimer');
+            
+            // Check if today is December 25th
+            if (currentMonth === 11 && currentDate === 25) {
+                // It's Christmas Day!
+                if (countdownTitle) {
+                    countdownTitle.textContent = '🎄🎁 Today is Christmas! 🎁🎄';
+                }
+                if (countdownTimer) {
+                    countdownTimer.innerHTML = `
+                        <div style="width: 100%; text-align: center; padding: 20px;">
+                            <div style="font-size: 2.5rem; color: #ffd93d; margin-bottom: 15px; text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);">
+                                🎉 Merry Christmas! 🎉
+                            </div>
+                            <div style="font-size: 1.2rem; color: #ffffff; line-height: 1.8;">
+                                Wishing you a day filled with<br>
+                                joy, love, and happiness! ✨
+                            </div>
+                        </div>
+                    `;
+                }
+                return; // Don't update the countdown numbers
+            }
+            
+            // Normal countdown logic
             let christmas = new Date(currentYear, 11, 25, 0, 0, 0); // December 25
             
             // If Christmas has passed this year, set it for next year
             if (now > christmas) {
                 christmas = new Date(currentYear + 1, 11, 25, 0, 0, 0);
+            }
+            
+            // Update title if it was changed
+            if (countdownTitle && countdownTitle.textContent !== '⏰ Time Until Christmas') {
+                countdownTitle.textContent = '⏰ Time Until Christmas';
+            }
+            
+            // Restore countdown timer if it was changed
+            if (countdownTimer && !countdownTimer.querySelector('.countdown-item')) {
+                countdownTimer.innerHTML = `
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="days">0</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="hours">0</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="minutes">0</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span class="countdown-number" id="seconds">0</span>
+                        <span class="countdown-label">Seconds</span>
+                    </div>
+                `;
             }
             
             const diff = christmas - now;
@@ -2703,10 +2759,15 @@
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             
-            document.getElementById('days').textContent = days;
-            document.getElementById('hours').textContent = hours;
-            document.getElementById('minutes').textContent = minutes;
-            document.getElementById('seconds').textContent = seconds;
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            
+            if (daysEl) daysEl.textContent = days;
+            if (hoursEl) hoursEl.textContent = hours;
+            if (minutesEl) minutesEl.textContent = minutes;
+            if (secondsEl) secondsEl.textContent = seconds;
         }
 
         // Update countdown every second
