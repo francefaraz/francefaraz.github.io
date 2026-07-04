@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shaik Muneer — Full Stack Developer</title>
+  <meta name="description" content="Shaik Muneer — MERN & fintech full-stack developer. 3+ years building banking apps, loan platforms and Android apps." />
+  <link rel="icon" href="../assets/img/h1.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <!-- Loader -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <span class="loader-mono">booting particles…</span>
+      <div class="loader-track"><div class="loader-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- 3D stage: fixed behind everything -->
+  <canvas id="stage" aria-hidden="true"></canvas>
+
+  <!-- Nav -->
+  <header class="nav">
+    <a class="nav-brand" href="#home">
+      <span class="brand-mono">&lt;/&gt;</span> muneer<span class="brand-accent">.v3</span>
+    </a>
+    <nav class="nav-links" id="nav-links">
+      <a href="#home" class="nav-link is-active">Home</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#skills" class="nav-link">Stack</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu"><i class="bx bx-menu"></i></button>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="panel hero" id="home" data-shape="sphere">
+      <div class="hero-inner">
+        <p class="eyebrow reveal">// portfolio — version 3.0</p>
+        <h1 class="hero-title">
+          <span class="reveal">Shaik</span>
+          <span class="reveal hero-accent">Muneer<em>.</em></span>
+        </h1>
+        <p class="hero-sub reveal">Full-stack developer building <strong>banking-grade fintech</strong> and playful Android apps. Node, React, Python — 3+ years shipping to production.</p>
+        <div class="hero-cta reveal">
+          <a class="btn btn-solid magnetic" href="#projects">See the work <i class="bx bx-right-arrow-alt"></i></a>
+          <a class="btn btn-ghost magnetic" href="https://drive.google.com/file/d/1FXRAM5woAdtSh1fCkFRM_u_yFryViZa7/view?usp=sharing" target="_blank" rel="noopener">Resume</a>
+        </div>
+        <div class="hero-social reveal">
+          <a href="https://www.linkedin.com/in/shaikmuneer" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a>
+          <a href="https://github.com/francefaraz" target="_blank" rel="noopener" aria-label="GitHub"><i class="bx bxl-github"></i></a>
+          <a href="https://bit.ly/playstorefar" target="_blank" rel="noopener" aria-label="Play Store"><i class="bx bxl-play-store"></i></a>
+        </div>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">
+        <span class="mono">scroll — particles morph</span>
+        <span class="scroll-line"></span>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="panel" id="about" data-shape="helix">
+      <div class="container">
+        <p class="eyebrow reveal">// about</p>
+        <h2 class="section-title reveal">Banking logic by day,<br />side-project apps by night.</h2>
+        <div class="about-grid">
+          <div class="about-card glass reveal">
+            <p>I'm a Sr. Programmer with <strong>3+ years</strong> of production experience — much of it inside real banking systems: CD renewals, instant loan approval, account servicing on the Q2 platform.</p>
+            <p>Streamlined account-analysis logic that cut customer-support issues by <span class="stat-inline">40%</span> and lifted renewal rates by <span class="stat-inline">20%</span>. Built an instant-loan flow that halved approval time.</p>
+            <p class="mono about-mail">skmuneer47208@gmail.com <i class="bx bx-copy" id="copy-mail" title="Copy email"></i></p>
+          </div>
+          <div class="about-facts">
+            <div class="fact glass reveal"><span class="fact-num" data-count="3">0</span><span class="fact-label">years in production</span></div>
+            <div class="fact glass reveal"><span class="fact-num" data-count="6">0</span><span class="fact-label">shipped products</span></div>
+            <div class="fact glass reveal"><span class="fact-num" data-count="50">0</span><span class="fact-label">% faster loan approvals</span></div>
+          </div>
+        </div>
+        <div class="edu-row">
+          <div class="edu glass reveal">
+            <span class="mono edu-date">2017 — 2020</span>
+            <h3>B.Tech, Computer Science</h3>
+            <p>Anil Neerukonda Institute of Technology and Science, Visakhapatnam</p>
+          </div>
+          <div class="edu glass reveal">
+            <span class="mono edu-date">2014 — 2017</span>
+            <h3>Diploma, Computer Engineering</h3>
+            <p>Government Polytechnic College, Anakapalli</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section class="panel" id="skills" data-shape="helix">
+      <div class="container">
+        <p class="eyebrow reveal">// stack</p>
+        <h2 class="section-title reveal">Tools I ship with.</h2>
+        <ul class="stack-list">
+          <li class="stack-item reveal"><span class="mono stack-idx">nodejs</span><span class="stack-name">Node.js + Express</span><span class="stack-note">APIs, scraping pipelines, real-time services</span></li>
+          <li class="stack-item reveal"><span class="mono stack-idx">react</span><span class="stack-name">React.js</span><span class="stack-note">Banking UIs, admin panels, dashboards</span></li>
+          <li class="stack-item reveal"><span class="mono stack-idx">python</span><span class="stack-name">Python + Q2 SDK</span><span class="stack-note">Fintech backends on the Q2 banking platform</span></li>
+          <li class="stack-item reveal"><span class="mono stack-idx">mongo</span><span class="stack-name">MongoDB + Elastic Search</span><span class="stack-note">Document stores, full-text search at scale</span></li>
+          <li class="stack-item reveal"><span class="mono stack-idx">mobile</span><span class="stack-name">Flutter + Android (Java)</span><span class="stack-note">Play Store apps with Firebase + AdMob</span></li>
+          <li class="stack-item reveal"><span class="mono stack-idx">core</span><span class="stack-name">JavaScript, HTML, CSS, Git, DSA</span><span class="stack-note">The fundamentals, kept sharp</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <section class="panel" id="projects" data-shape="knot">
+      <div class="container">
+        <p class="eyebrow reveal">// projects</p>
+        <h2 class="section-title reveal">Shipped, not just started.</h2>
+        <div class="projects-grid">
+
+          <article class="project-card glass tilt reveal">
+            <div class="card-media"><img src="../assets/img/webeqt.png" alt="WEBEQT news platform" loading="lazy" /></div>
+            <div class="card-body">
+              <h3>WEBEQT</h3>
+              <p>Centralized news platform aggregating articles from many sources, with an admin panel for single-site or CSV bulk onboarding and real-time monitoring of scraped links.</p>
+              <p class="mono card-tags">node · react · mongodb · elastic</p>
+            </div>
+          </article>
+
+          <article class="project-card glass tilt reveal">
+            <div class="card-media"><img src="../assets/img/lightning_loan.png" alt="Lightning Loan instant personal loans" loading="lazy" /></div>
+            <div class="card-body">
+              <h3>Lightning Loan</h3>
+              <p>Paperless instant personal loans in minutes. Cut approval time ~50% and lifted satisfaction ~25% with profile- and credit-score-based loan offers.</p>
+              <p class="mono card-tags">python · q2 sdk · react · temenos</p>
+            </div>
+          </article>
+
+          <article class="project-card glass tilt reveal">
+            <div class="card-media"><img src="../assets/img/cd_renewal.png" alt="CD renewal and account closure app" loading="lazy" /></div>
+            <div class="card-body">
+              <h3>CD Renewal &amp; Account Closure</h3>
+              <p>In-app certificate-of-deposit renewals, account closure, fund transfers and cashier's checks. Cut support issues 40%, improved renewal rates 20%.</p>
+              <p class="mono card-tags">python · react · q2 sdk</p>
+            </div>
+          </article>
+
+          <article class="project-card glass tilt reveal">
+            <div class="card-media"><img src="../assets/img/inspire_me_now.jpg" alt="Inspire Me Now app" loading="lazy" /></div>
+            <div class="card-body">
+              <h3>Inspire Me Now</h3>
+              <p>Motivational-quotes app to lift your spirits when you're feeling low — a vast collection of quotes for strength and positivity.</p>
+              <p class="mono card-tags">flutter · firebase · admob</p>
+              <a class="card-link mono" href="https://play.google.com/store/apps/details?id=com.far.makeurselfinspire.make_urself_inspire" target="_blank" rel="noopener">play store <i class="bx bx-link-external"></i></a>
+            </div>
+          </article>
+
+          <article class="project-card glass tilt reveal">
+            <div class="card-media"><img src="../assets/img/cartoon-stickers.webp" alt="Cartoon Stickers app" loading="lazy" /></div>
+            <div class="card-body">
+              <h3>Cartoon Stickers by Ido</h3>
+              <p>WhatsApp sticker app that makes chats fun — send cartoon stickers to friends and cartoon lovers.</p>
+              <p class="mono card-tags">android · java · firebase</p>
+              <a class="card-link mono" href="https://play.google.com/store/apps/details?id=com.ido.crtnsticker" target="_blank" rel="noopener">play store <i class="bx bx-link-external"></i></a>
+            </div>
+          </article>
+
+          <article class="project-card glass tilt reveal">
+            <div class="card-media"><img src="../assets/img/ffm-stickers.webp" alt="FFM Stickers app" loading="lazy" /></div>
+            <div class="card-body">
+              <h3>FFM Stickers by IDO</h3>
+              <p>Free Fire Max sticker packs for WhatsApp — 14+ packs, shared with friends, families and groups.</p>
+              <p class="mono card-tags">android · java · firebase</p>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="panel contact" id="contact" data-shape="grid">
+      <div class="container contact-inner">
+        <p class="eyebrow reveal">// contact</p>
+        <h2 class="section-title reveal">Let's build something<br />worth shipping.</h2>
+        <a class="btn btn-solid btn-big magnetic reveal" href="mailto:skmuneer47208@gmail.com">skmuneer47208@gmail.com</a>
+        <div class="hero-social contact-social reveal">
+          <a href="https://www.linkedin.com/in/shaikmuneer" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a>
+          <a href="https://github.com/francefaraz" target="_blank" rel="noopener" aria-label="GitHub"><i class="bx bxl-github"></i></a>
+          <a href="https://bit.ly/playstorefar" target="_blank" rel="noopener" aria-label="Play Store"><i class="bx bxl-play-store"></i></a>
+        </div>
+        <p class="mono footer-note">shaik muneer — v3 · built with three.js · <a href="../index.html">v1</a> · <a href="../v2/index.html">v2</a></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
