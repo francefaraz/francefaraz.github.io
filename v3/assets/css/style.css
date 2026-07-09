@@ -272,6 +272,33 @@ a { color: inherit; }
 .about-mail { font-size: 0.85rem; color: var(--brass); }
 .about-mail a { color: var(--brass); text-decoration: none; border-bottom: 1px dashed rgba(232,179,75,.5); }
 
+.about-side { display: flex; flex-direction: column; gap: 1.2rem; }
+.about-text em { font-style: normal; color: var(--cyan); }
+.about-text a { color: var(--cyan); }
+
+.portrait {
+  position: relative;
+  border: 1px solid rgba(232, 179, 75, 0.35);
+  border-radius: 14px;
+  padding: 0.6rem;
+  background: var(--ledger);
+}
+.portrait img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 9px;
+  filter: saturate(0.92);
+}
+.portrait-tag {
+  margin-top: 0.6rem;
+  text-align: center;
+  color: var(--brass);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+}
+
 .stats-panel {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -379,6 +406,18 @@ a { color: inherit; }
 .proj-stack { margin-top: 1rem; color: var(--cyan); font-size: 0.7rem; letter-spacing: 0.08em; }
 
 .app-list { list-style: none; margin-top: 0.4rem; }
+.app-list-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2.4rem;
+}
+.app-list-cols li { border-top: 1px solid var(--line); }
+.app-list-cols li:first-child, .app-list-cols li:nth-child(2) { border-top: 0; }
+.app-all span:first-child { color: var(--brass); font-weight: 600; }
+@media (max-width: 880px) {
+  .app-list-cols { grid-template-columns: 1fr; }
+  .app-list-cols li:nth-child(2) { border-top: 1px solid var(--line); }
+}
 .app-list li + li { border-top: 1px solid var(--line); }
 .app-list a {
   display: flex;
