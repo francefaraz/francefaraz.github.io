@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shaik Muneer — Software Engineer &amp; Builder</title>
+  <meta name="description" content="Shaik Muneer builds backend platforms trusted by U.S. banks, a dozen apps and games on Google Play, and AI-driven workflows that ship it all faster." />
+  <link rel="icon" href="../assets/img/h1.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700&family=Sora:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <!-- Boot / loading screen -->
+  <div id="boot">
+    <div class="boot-inner">
+      <p class="boot-line mono">muneer.build <span class="boot-cursor">▮</span></p>
+      <p class="boot-status mono" id="boot-status">collecting ideas…</p>
+      <div class="boot-track"><div class="boot-fill" id="boot-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- 3D canvas -->
+  <canvas id="space-canvas" aria-hidden="true"></canvas>
+
+  <!-- Nav -->
+  <header class="nav" id="nav">
+    <a class="nav-brand" href="#home">MUNEER<em>.BUILD</em></a>
+    <nav class="nav-links" id="nav-links" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#apps">Apps</a>
+      <a href="#toolkit">Toolkit</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-cta" href="https://drive.google.com/file/d/1FXRAM5woAdtSh1fCkFRM_u_yFryViZa7/view?usp=sharing" target="_blank" rel="noopener">Resume ↗</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="home">
+      <p class="eyebrow mono reveal">SHAIK MUNEER · SOFTWARE ENGINEER &amp; BUILDER</p>
+      <h1 class="hero-title">
+        <span class="line">I turn <em>ideas</em> into</span>
+        <span class="line">products <span class="alt">people use</span>.</span>
+      </h1>
+      <p class="hero-sub reveal">
+        Backend platforms trusted by U.S. banks. A dozen apps and games on Google Play.
+        AI-driven workflows that ship it all faster. If it solves a real problem, I'll build it.
+      </p>
+      <div class="hero-actions reveal">
+        <a class="btn btn-solid" href="#work">Explore the work</a>
+        <a class="btn btn-ghost" href="#contact">Say hello</a>
+      </div>
+
+      <div class="orbit-stats reveal">
+        <div class="orbit-stat"><span class="orbit-num" data-count="5" data-suffix="+">0</span><span class="orbit-label mono">years shipping</span></div>
+        <div class="orbit-stat"><span class="orbit-num" data-count="12" data-suffix="">0</span><span class="orbit-label mono">apps on google play</span></div>
+        <div class="orbit-stat"><span class="orbit-num" data-count="8" data-suffix="+">0</span><span class="orbit-label mono">institutions served</span></div>
+        <div class="orbit-stat"><span class="orbit-num" data-count="6" data-suffix="+">0</span><span class="orbit-label mono">core systems integrated</span></div>
+      </div>
+
+      <a class="scroll-hint mono" href="#about">scroll ▾</a>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="section" id="about">
+      <div class="container">
+        <p class="eyebrow mono reveal">ORBIT 01 — WHO</p>
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <h2 class="section-title">Builder first.<br />Title second.</h2>
+            <p>
+              I'm Shaik Muneer — an engineer from Visakhapatnam who likes shipping more than
+              talking about shipping. By day I lead engineering at <strong>Nueve IT Solutions</strong>,
+              building large-scale backend platforms and secure integrations used by millions of
+              banking customers across the U.S.
+            </p>
+            <p>
+              By night I'm <em>“myself android”</em> on Google Play — <strong>12 published apps and
+              games</strong>, from <em>Zip Game</em> and <em>Brain Battle</em> to
+              <em>Islamic Duas</em> and a QR scanner. Some scratch an itch, some solve a community's
+              problem, all of them taught me something a tutorial couldn't.
+            </p>
+            <p>
+              Lately I build with leverage: <strong>AI-assisted workflows</strong> — Claude Code,
+              OpenAI/Codex, Gemini CLI, Playwright — that turn week-long tasks into afternoon ones.
+              And I keep the fundamentals sharp on
+              <a href="https://leetcode.com/u/ShaikMuneer/" target="_blank" rel="noopener">LeetCode</a>.
+            </p>
+            <p class="mono about-mail">
+              ✉ <a href="mailto:itsmuneer.shaik@gmail.com">itsmuneer.shaik@gmail.com</a>
+            </p>
+          </div>
+          <div class="reveal">
+            <div class="portrait">
+              <img src="../assets/img/profile_1.jpeg" alt="Portrait of Shaik Muneer" loading="lazy" />
+              <p class="mono portrait-tag">MUNEER · BUILDER OF THINGS</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WHAT I BUILD ============ -->
+    <section class="section" id="pillars">
+      <div class="container">
+        <p class="eyebrow mono reveal">ORBIT 02 — WHAT I BUILD</p>
+        <h2 class="section-title reveal">Three kinds of <em>shipping</em>.</h2>
+        <div class="pillars">
+          <div class="pillar reveal">
+            <div class="pillar-icon" aria-hidden="true">⚙</div>
+            <h3>Backend &amp; Platforms</h3>
+            <p>REST APIs, microservices and integration layers that move real money for real banks — Python, Node.js, and a Core Abstraction Layer spanning six banking systems.</p>
+          </div>
+          <div class="pillar reveal">
+            <div class="pillar-icon" aria-hidden="true">▶</div>
+            <h3>Apps &amp; Games</h3>
+            <p>Twelve Android products built end-to-end — design, code, publish, iterate. Flutter, Java, Firebase, and a habit of shipping fast MVPs that find their users.</p>
+          </div>
+          <div class="pillar reveal">
+            <div class="pillar-icon" aria-hidden="true">✦</div>
+            <h3>AI &amp; Automation</h3>
+            <p>Agentic workflows, CI/CD pipelines and Playwright frameworks that cut review cycles 40% and deployment failures 35% — engineering that speeds up engineering.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FEATURED BUILDS ============ -->
+    <section class="section" id="work">
+      <div class="container">
+        <p class="eyebrow mono reveal">ORBIT 03 — FEATURED BUILDS</p>
+        <h2 class="section-title reveal">Some things I've <em>shipped</em>.</h2>
+
+        <div class="builds">
+          <article class="build build-wide reveal">
+            <div class="build-media"><img src="../assets/img/webeqt.png" alt="WEBEQT news aggregation platform screenshot" loading="lazy" /></div>
+            <div class="build-body">
+              <p class="build-tag mono">FULL-STACK PLATFORM</p>
+              <h3>WEBEQT</h3>
+              <p>Centralized news platform aggregating articles from many sources into one stream — admin panel with single-site or CSV bulk onboarding and <b>real-time monitoring</b> of scraped links.</p>
+              <p class="build-stack mono">NodeJS · ReactJS · MongoDB · Elasticsearch</p>
+            </div>
+          </article>
+
+          <article class="build reveal">
+            <div class="build-media"><img src="../assets/img/lightning_loan.png" alt="Lightning Loan instant personal loan app screenshot" loading="lazy" /></div>
+            <div class="build-body">
+              <p class="build-tag mono">INSTANT LENDING</p>
+              <h3>Lightning Loan</h3>
+              <p>Paperless personal loans approved in minutes — approval time down ~<b>50%</b>, with offers tailored to user profiles and credit scores.</p>
+              <p class="build-stack mono">Python · ReactJS · Temenos</p>
+            </div>
+          </article>
+
+          <article class="build reveal">
+            <div class="build-media"><img src="../assets/img/cd_renewal.png" alt="Self-service CD renewal banking app screenshot" loading="lazy" /></div>
+            <div class="build-body">
+              <p class="build-tag mono">SELF-SERVICE BANKING</p>
+              <h3>CD Management Platform</h3>
+              <p>Multi-tenant platform for CD opening, renewals, closures and transfers across multiple U.S. institutions — renewal conversion up <b>20%</b>, branch dependency down <b>40%</b>.</p>
+              <p class="build-stack mono">Python · Q2 SDK · ReactJS</p>
+            </div>
+          </article>
+
+          <article class="build reveal">
+            <div class="build-media">
+              <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Core Abstraction Layer diagram">
+                <rect width="400" height="220" fill="#111d33"/>
+                <g stroke="#4ae8b5" stroke-width="1.2" fill="none" opacity="0.85">
+                  <rect x="160" y="85" width="80" height="50" rx="8"/>
+                  <path d="M60 40 L160 100 M60 110 L160 110 M60 180 L160 120 M240 100 L340 40 M240 110 L340 110 M240 120 L340 180"/>
+                </g>
+                <g fill="#e36bd6" opacity="0.9">
+                  <circle cx="60" cy="40" r="7"/><circle cx="60" cy="110" r="7"/><circle cx="60" cy="180" r="7"/>
+                </g>
+                <g fill="#4ae8b5" opacity="0.9">
+                  <circle cx="340" cy="40" r="7"/><circle cx="340" cy="110" r="7"/><circle cx="340" cy="180" r="7"/>
+                </g>
+                <text x="200" y="115" fill="#eaf2f5" font-family="monospace" font-size="13" text-anchor="middle">CAL</text>
+              </svg>
+            </div>
+            <div class="build-body">
+              <p class="build-tag mono">INTEGRATION ENGINE</p>
+              <h3>Core Abstraction Layer</h3>
+              <p>One standardized API surface routing across six core systems with unified field mapping — partner onboarding cut by ~<b>3 weeks</b>, integration effort by <b>60%</b>.</p>
+              <p class="build-stack mono">Python · REST APIs · 6 Core Systems</p>
+            </div>
+          </article>
+
+          <article class="build build-wide reveal">
+            <div class="build-media">
+              <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AI-assisted delivery pipeline diagram">
+                <rect width="800" height="220" fill="#111d33"/>
+                <g font-family="monospace" font-size="12" text-anchor="middle">
+                  <g stroke="#4ae8b5" fill="none" stroke-width="1.2" opacity="0.85">
+                    <rect x="60" y="85" width="110" height="50" rx="10"/>
+                    <rect x="240" y="85" width="110" height="50" rx="10"/>
+                    <rect x="420" y="85" width="110" height="50" rx="10"/>
+                    <rect x="600" y="85" width="140" height="50" rx="10"/>
+                    <path d="M170 110 h70 M350 110 h70 M530 110 h70" stroke="#e36bd6"/>
+                  </g>
+                  <text x="115" y="115" fill="#eaf2f5">commit</text>
+                  <text x="295" y="115" fill="#eaf2f5">AI review</text>
+                  <text x="475" y="115" fill="#eaf2f5">playwright</text>
+                  <text x="670" y="115" fill="#4ae8b5">deploy ✓</text>
+                </g>
+              </svg>
+            </div>
+            <div class="build-body">
+              <p class="build-tag mono">AI × DEVOPS</p>
+              <h3>AI-Assisted Delivery Pipeline</h3>
+              <p>CI/CD across GitLab &amp; GitHub Actions with Claude Code and local LLMs in the loop — review cycles down <b>40%</b>, deployment failures down <b>35%</b>, tickets auto-tracked via Jira automation.</p>
+              <p class="build-stack mono">GitLab CI · GitHub Actions · Playwright · Claude Code · OpenClaw</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ APP SHELF ============ -->
+    <section class="section" id="apps">
+      <div class="container">
+        <p class="eyebrow mono reveal">ORBIT 04 — THE APP SHELF</p>
+        <h2 class="section-title reveal">Published as <em>“myself android”</em>.</h2>
+
+        <div class="apps-grid">
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=far.munexa.zipgame" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/lOTFxbDwXSNAVMgyPPCXo2qiaNZgGqmSNlrzQTJVF36gPh18EUQCCa5YoTbhbFa09W1cg3CBbroUNTo7caf8ig=s192" alt="Zip Game icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">Zip Game</span><span class="app-rating mono"><span class="star">★</span> 5.0 · Game</span></span>
+          </a>
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=far.munexa.brainbattle" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/0FnWSw-TxB-DfcToqxpfJHqBV1SIEWITraqNUoAXC89jClGzvc8T2KleXbuv3Rje8aec_ETA4XX5a9ZJy_hoQg=s192" alt="Brain Battle icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">Brain Battle</span><span class="app-rating mono"><span class="star">★</span> 5.0 · Game</span></span>
+          </a>
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.muneer.islamic" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/ip1j8fn1Te6QwH3s4_DWUIdFKmds35lIkaQnIYgiwYedKus9eLkfhoILsuUAc77h-RDsWT9kQOTmyPsjvv5NZQ=s192" alt="Islamic Duas icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">Islamic Duas</span><span class="app-rating mono"><span class="star">★</span> 5.0 · Utility</span></span>
+          </a>
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.far.mathslearn" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/HUQat5-QzKJ50cCDmapJlpbe3Rg-95TbFiiqH-zMIJd8A_glePNHuuqVc9qr3uKK6BNhbkXGuhDLipJ9QB7_LQ=s192" alt="Learn Maths From Home icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">Learn Maths From Home</span><span class="app-rating mono"><span class="star">★</span> 5.0 · Education</span></span>
+          </a>
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.far.makeurselfinspire.make_urself_inspire" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/8PSZyAc4sZ2VyfETnin7u-iczDMX7xnDOve2IDqcGH3V4shNRNLQKC4KXj-SYoUH-Q66hG4FVxiNItQLCvwWO3I=s192" alt="Inspire Me Now icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">Inspire Me Now</span><span class="app-rating mono"><span class="star">★</span> 5.0 · Motivation</span></span>
+          </a>
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.far.fonts.app.fontsapplication" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/kWHDJf49aDCPo3r9-QdH5hYx6xY8TlCAZLdwFArPo5ABtSvK5pC1f8G6RyLbJ85HrEFup973jASm4Wk2HciS=s192" alt="Stylish Text Font Generator icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">Stylish Text Fonts</span><span class="app-rating mono"><span class="star">★</span> 5.0 · Utility</span></span>
+          </a>
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.faraz.qrbarcodescannermaster" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/Z3v5drwsiYjLbjC6QPM_OW80L3qPHR3XD_C9duTIREtjnXPZC68FHqK9MttcIynCkzDRrvv7orcEU344roguETM=s192" alt="QR BarCode Scanner Master icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">QR Scanner Master</span><span class="app-rating mono"><span class="star">★</span> 5.0 · Tool</span></span>
+          </a>
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=c.faraz.namaztaravee" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/N5uvWTF0i0VjfWVTuBefmNohxFDOuI4DdaA6II6mqSe6uJhL8TCflO9G4lttRLZQi5QlhVtY3ZqGQpPG6XhQWBU=s192" alt="Namaz-e-Taraweeh icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">Namaz-e-Taraweeh</span><span class="app-rating mono"><span class="star">★</span> 4.4 · Assistant</span></span>
+          </a>
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.far.madarsa.frontend" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/rWlcP48cAc9r1BNYKkPNIZRb00EFtlgi85-JSIGgcCgRKouWvHgiYseMzeoLgXrI0DlxydBraP4GoSWns4qqhw=s192" alt="MadarsaConnect icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">MadarsaConnect</span><span class="app-rating mono">NEW · Community</span></span>
+          </a>
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.id.ffsticker" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/D2pRfi5sOt2nyVp-Cgq9Z0L3BpeaJHstujiq5h7LisaP3sllP_JhMundsuZqOF77Ga1ePW9cctc3XGcK9CUKlA=s192" alt="FFM Stickers icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">FFM Stickers</span><span class="app-rating mono"><span class="star">★</span> 4.2 · Stickers</span></span>
+          </a>
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.far.free_fire_arena" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/Wyr7hLQ356hZjpALUemq2JINYdXleypr7pY5UGKlf3CYtGGrJ5JD6Jq3EpE5SKcz8k3lH2d93bD3biYiZBX3Gg=s192" alt="FFM Rooms icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">FFM Rooms</span><span class="app-rating mono"><span class="star">★</span> 3.8 · Gaming</span></span>
+          </a>
+          <a class="app-card reveal" href="https://play.google.com/store/apps/details?id=com.far.fluwallpaper" target="_blank" rel="noopener">
+            <img class="app-icon" src="https://play-lh.googleusercontent.com/SaVEheMTOb-EmTNFZTz6juMvsDE4q5-d2N9thz57WckJ5E6e86sLZtsLYoOWd6hvLE9eCOPiGFZYd3ViWVEi=s192" alt="FreeFlow Wallpapers icon" loading="lazy" referrerpolicy="no-referrer" />
+            <span class="app-meta"><span class="app-name">FreeFlow Wallpapers</span><span class="app-rating mono">Personalization</span></span>
+          </a>
+        </div>
+
+        <p class="apps-note reveal"><a href="https://play.google.com/store/apps/developer?id=myself+android" target="_blank" rel="noopener">VIEW ALL ON GOOGLE PLAY ↗</a></p>
+      </div>
+    </section>
+
+    <!-- ============ TRAJECTORY ============ -->
+    <section class="section" id="trajectory">
+      <div class="container">
+        <p class="eyebrow mono reveal">ORBIT 05 — TRAJECTORY</p>
+        <h2 class="section-title reveal">Where the <em>experience</em> comes from.</h2>
+
+        <article class="xp-card reveal">
+          <header class="xp-head">
+            <div>
+              <h3>Nueve IT Solutions</h3>
+              <p class="xp-role">Engineering Lead / Senior Backend &amp; AI Platform Engineer</p>
+            </div>
+            <p class="mono xp-date">OCT 2020 — PRESENT · VISAKHAPATNAM</p>
+          </header>
+          <ul class="xp-list">
+            <li>Led platforms for <b>8+ financial institutions</b> — Python (Q2 SDK), Node.js, React.js, .NET — on RESTful microservices architecture.</li>
+            <li>Built secure integrations across <b>6+ core systems</b>, cutting integration latency <b>30%</b>; authored the reusable Core Abstraction Layer (<b>60%</b> less onboarding effort).</li>
+            <li>Engineered CI/CD with GitLab CI, Jenkins &amp; GitHub Actions; Jira ⇄ GitLab automation cut ticket resolution time <b>30%</b>.</li>
+            <li>Introduced AI-driven development and LLM tooling — bug resolution time down ~<b>25%</b> in the first quarter.</li>
+            <li>Containerized services with Docker; optimized MongoDB and async workflows for <b>50% faster</b> data retrieval.</li>
+          </ul>
+        </article>
+
+        <div class="edu-row reveal">
+          <div class="edu-card">
+            <p class="mono edu-tag">B.TECH · 2017–2020</p>
+            <h4>Computer Science &amp; Engineering</h4>
+            <p>Anil Neerukonda Institute of Technology and Science</p>
+          </div>
+          <div class="edu-card">
+            <p class="mono edu-tag">DIPLOMA · 2014–2017</p>
+            <h4>Computer Engineering</h4>
+            <p>Government Polytechnic College, Anakapalli, Visakhapatnam</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TOOLKIT ============ -->
+    <section class="section" id="toolkit">
+      <div class="container">
+        <p class="eyebrow mono reveal">ORBIT 06 — TOOLKIT</p>
+        <h2 class="section-title reveal">Chosen tools, <em>earned</em> opinions.</h2>
+        <div class="toolkit">
+          <div class="tool-group reveal">
+            <p class="tool-head mono">LANGUAGES &amp; BACKEND</p>
+            <div class="chips">
+              <span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">SQL</span><span class="chip">Java</span><span class="chip">FastAPI</span><span class="chip">Flask</span><span class="chip">Django</span><span class="chip">Node.js</span><span class="chip">REST APIs</span><span class="chip">Microservices</span><span class="chip">Q2 SDK</span>
+            </div>
+          </div>
+          <div class="tool-group reveal">
+            <p class="tool-head mono">WEB &amp; MOBILE</p>
+            <div class="chips">
+              <span class="chip">React.js</span><span class="chip">Flutter</span><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">Android (Java)</span><span class="chip">Firebase</span>
+            </div>
+          </div>
+          <div class="tool-group reveal">
+            <p class="tool-head mono">CLOUD &amp; DEVOPS</p>
+            <div class="chips">
+              <span class="chip">AWS</span><span class="chip">Docker</span><span class="chip">GitHub Actions</span><span class="chip">GitLab CI/CD</span><span class="chip">Jenkins</span><span class="chip">Terraform</span><span class="chip">SonarQube</span><span class="chip">Kubernetes</span>
+            </div>
+          </div>
+          <div class="tool-group reveal">
+            <p class="tool-head mono">AI &amp; DATA</p>
+            <div class="chips">
+              <span class="chip">Claude Code</span><span class="chip">OpenAI / Codex</span><span class="chip">Gemini CLI</span><span class="chip">Agentic Workflows</span><span class="chip">Playwright</span><span class="chip">MongoDB</span><span class="chip">MySQL</span><span class="chip">Elasticsearch</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section contact" id="contact">
+      <div class="container">
+        <p class="eyebrow mono reveal">ORBIT 07 — TRANSMIT</p>
+        <h2 class="contact-title reveal">Got an idea?<br />Let's <em>build it</em>.</h2>
+        <a class="contact-mail reveal" href="mailto:itsmuneer.shaik@gmail.com">itsmuneer.shaik@gmail.com</a>
+        <div class="contact-links reveal">
+          <a href="https://www.linkedin.com/in/shaikmuneer/" target="_blank" rel="noopener" class="mono">LINKEDIN ↗</a>
+          <a href="https://github.com/francefaraz" target="_blank" rel="noopener" class="mono">GITHUB ↗</a>
+          <a href="https://play.google.com/store/apps/developer?id=myself+android" target="_blank" rel="noopener" class="mono">PLAY STORE ↗</a>
+          <a href="https://leetcode.com/u/ShaikMuneer/" target="_blank" rel="noopener" class="mono">LEETCODE ↗</a>
+          <a href="https://wa.me/919652021999" target="_blank" rel="noopener" class="mono">WHATSAPP ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer mono">
+    <span>© <span id="year"></span> SHAIK MUNEER · BUILT BY HAND, ACCELERATED BY AI</span>
+    <span>VERSIONS · <a href="../">v1</a> · <a href="../v2/">v2</a> · <a href="../v3/">v3</a> · v4</span>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
