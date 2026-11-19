@@ -45,13 +45,23 @@ function advanceClock(dt) {
 
 /* ---------- sound: tiny synth, no audio files ---------- */
 const sound = {
-  ctx: null, out: null, on: CFG.sound || params.has('sound'), lastTick: 0,
-  unlock() {
-    if (this.ctx) { this.ctx.resume(); return; }
-    try {
-      const Ctx = window.AudioContext || window.webkitAudioContext;
-      this.ctx = new Ctx(); this.out = this.ctx.createGain(); this.out.gain.value = .5; this.out.connect(this.ctx.destination);
-    } catch (e) { this.ctx = null; }
+  ctx: null, out: null, on: CFG.sound || params.has('sound'), lastTick: 0, greeted: false,
+  unlock() {                                    // safe to call any time; only succeeds once the browser allows audio
+    if (!this.ctx) {
+      try {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        this.ctx = new Ctx(); this.out = this.ctx.createGain(); this.out.gain.value = .5; this.out.connect(this.ctx.destination);
+        this.ctx.onstatechange = () => this.changed();
+      } catch (e) { this.ctx = null; return; }
+    }
+    if (this.ctx.state !== 'running') this.ctx.resume().then(() => this.changed(), () => {});
+    this.changed();
+  },
+  get running() { return !!this.ctx && this.ctx.state === 'running'; },
+  changed() {
+    const hint = $('#soundHint');
+    if (hint) hint.classList.toggle('show', this.on && !this.running);
+    if (this.on && this.running && !this.greeted) { this.greeted = true; this.chord(); }   // audible "sound is on"
   },
   tone(freq, dur = .13, type = 'triangle', vol = .07, delay = 0) {
     if (!this.on || !this.ctx || this.ctx.state !== 'running') return;
@@ -626,7 +636,7 @@ const replay = () => reloadWith('replay');
 function buildAll() { if (!finished) reloadWith('skip'); }   // in-flight jobs can't be cancelled cleanly, so restart straight into the finished page
 function setSpeed(s) { clock.speed = s; $('#bSpeed').textContent = 'Speed ' + s + 'x'; }
 function showSound() { $('#bSound').textContent = sound.on ? 'Sound on' : 'Sound off'; $('#bSound').classList.toggle('on', sound.on); }
-function toggleSound() { sound.on = !sound.on; if (sound.on) sound.unlock(); showSound(); }
+function toggleSound() { sound.on = !sound.on; if (sound.on) sound.unlock(); else sound.changed(); showSound(); }
 function cycleAccent() { accentName = accentNames[(accentNames.indexOf(accentName) + 1) % accentNames.length]; inkNow(); }
 
 const onButton = (id, fn) => { $(id).addEventListener('click', e => { e.stopPropagation(); fn(); }); };
@@ -673,6 +683,9 @@ addEventListener('keydown', e => {
   you.init();
   $('#avs').innerHTML = HUES.slice(0, 5).map(c => `<i style="background:${c}"></i>`).join('');
   setSpeed(clock.speed); showSound(); showProgress(); swarm.resize();
+  if (sound.on) sound.unlock();                 // plays right away where the browser allows it; otherwise the hint shows
+  onButton('#soundHint', () => sound.unlock());
+  if (matchMedia('(pointer: coarse)').matches) $('#soundHint').lastChild.textContent = 'Tap anywhere for sound';
 
   let saved = null;
   try { saved = JSON.parse(sessionStorage.getItem('mz-v6') || 'null'); sessionStorage.removeItem('mz-v6'); } catch (e) {}

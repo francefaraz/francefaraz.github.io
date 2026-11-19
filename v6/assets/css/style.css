@@ -250,6 +250,12 @@ html.you-cursor,html.you-cursor *{cursor:none !important}
 .crew-keys{margin-top:12px;color:var(--mute);font-size:10.5px}
 .crew-keys kbd{font-size:10px;padding:2px 4px}
 @media (pointer:coarse){.crew-keys{display:none}}
+.sound-hint{all:unset;display:none;align-items:center;gap:8px;cursor:pointer;padding:9px 14px;border-radius:999px;background:var(--sel);color:#fff;font:500 12px/1 var(--mono);box-shadow:0 10px 30px rgba(0,0,0,.5);animation:nudge 2.4s ease-in-out infinite}
+.sound-hint.show{display:inline-flex}
+.sound-hint svg{width:13px;height:13px;fill:currentColor}
+.sound-hint:focus-visible{outline:2px solid #fff;outline-offset:2px}
+@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media (prefers-reduced-motion:reduce){.sound-hint{animation:none}}
 
 /* ---------- small screens ---------- */
 @media (max-width:1100px){
