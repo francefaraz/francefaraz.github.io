@@ -6,7 +6,7 @@ const CFG = {
   agents: 16,                         // how many cursors build the page (4 to 60)
   accent: 'mint',                     // mint | magenta | amber | blue  (press C to cycle)
   finale: ['BUILD', '♥', 'MUNEER'],   // what the swarm spells when the contact section is built
-  words: ['BUILDER', 'ENGINEER', 'LEAD', 'SHIPPER'],   // the big outlined word cycles through these
+  words: ['BUILDER', 'ENGINEER', 'WEB DEVELOPER', 'ANDROID DEVELOPER', 'LEAD', 'GAMER', 'YOUTUBER', 'SHIPPER'],   // the big outlined word cycles through these
   sound: true                         // browsers only allow audio after the first click, tap or key, so it starts then
 };
 /* ===================================================================== */
@@ -471,7 +471,9 @@ const mega = {
     const ctx = document.createElement('canvas').getContext('2d');
     ctx.font = '400 300px Anton';
     this.ctx = ctx; this.gap = 6;                                // letter spacing in SVG units
-    const widths = CFG.words.map(w => this.measure(w).total);
+    // the frame is as wide as the widest single word; longer phrases shrink to fit it, so the hero never jumps
+    const singles = CFG.words.filter(w => !w.includes(' '));
+    const widths = (singles.length ? singles : CFG.words).map(w => this.measure(w).total);
     const asc = ctx.measureText('BH').actualBoundingBoxAscent || 270;
     this.maxW = Math.max(...widths); this.asc = asc;
     this.vb = { x: -6, y: -asc - 6, w: this.maxW + 12, h: asc + 12 };
@@ -487,16 +489,21 @@ const mega = {
   },
   layout(word) {                                                // one <g> per letter so each can move on its own
     const { adv, total } = this.measure(word);
-    let x = (this.maxW - total) / 2;
+    const fit = this.fit = Math.min(1, this.maxW / total);
+    this.tx = (this.maxW - total * fit) / 2; this.ty = -this.asc * (1 - fit) / 2;   // centre the shrunk word
+    this.word.setAttribute('transform', `translate(${this.tx.toFixed(1)} ${this.ty.toFixed(1)}) scale(${fit.toFixed(4)})`);
     this.word.textContent = '';
-    this.letters = [...word].map((ch, i) => {
+    let x = 0;
+    this.letters = [];
+    [...word].forEach((ch, i) => {
       const w = adv[i] - this.gap, cx = x + w / 2; x += adv[i];
+      if (ch === ' ') return;
       const g = document.createElementNS(SVGNS, 'g'); g.setAttribute('class', 'L');
       g.innerHTML = `<text class="o" x="${cx}" y="0" text-anchor="middle">${ch}</text><text class="f" x="${cx}" y="0" text-anchor="middle" clip-path="url(#megaFill)">${ch}</text>`;
       this.word.appendChild(g);
-      return { g, o: g.firstChild, cx, k: 0, ink: 1 };
+      this.letters.push({ g, o: g.firstChild, cx, k: 0, ink: 1 });
     });
-    this.svg.setAttribute('aria-label', word.charAt(0) + word.slice(1).toLowerCase());
+    this.svg.setAttribute('aria-label', word.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()));
   },
   setDash(offset) { this.word.style.strokeDashoffset = offset; },
   async drawIn(ms) { await animate(ms, k => this.setDash(2400 * (1 - ease(k)))); this.drawn = true; },
@@ -533,14 +540,14 @@ const mega = {
       // cursor spotlight: letters near the "you" cursor fill in, lift and swell
       let target = 0;
       if (spot) {
-        const cx = ox + (L.cx - this.vb.x) * s, cy = oy + (-this.asc / 2 - this.vb.y) * s;
+        const cx = ox + (this.tx + L.cx * this.fit - this.vb.x) * s, cy = oy + (this.ty - this.asc * this.fit / 2 - this.vb.y) * s;
         target = clamp(1 - Math.hypot(you.x - cx, you.y - cy) / R, 0, 1);
       }
       L.k += (target - L.k) * Math.min(1, dt * .012);
       const spread = (i - (n - 1) / 2) * p * 34;
       L.g.style.transform = `translate(${spread.toFixed(1)}px,${(-L.k * 10).toFixed(1)}px) scale(${(1 + L.k * .08).toFixed(3)})`;
       L.o.style.setProperty('--f', ((.07 + L.k * .8) * L.ink).toFixed(3));
-      L.o.style.setProperty('--sw', (2.4 + L.k * 2.2).toFixed(2));
+      L.o.style.setProperty('--sw', ((2.4 + L.k * 2.2) / this.fit).toFixed(2));   // keep the outline weight even on shrunk words
     });
   }
 };
