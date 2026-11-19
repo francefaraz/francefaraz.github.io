@@ -1,0 +1,28 @@
+# Static site: no build step, publish the repo root (all versions: /, /v2/ ... /v6/).
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Images and fonts only: CSS/JS are not fingerprinted, so they must not be cached for long.
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
