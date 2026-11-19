@@ -6,7 +6,8 @@ const CFG = {
   agents: 16,                         // how many cursors build the page (4 to 60)
   accent: 'mint',                     // mint | magenta | amber | blue  (press C to cycle)
   finale: ['BUILD', '♥', 'MUNEER'],   // what the swarm spells when the contact section is built
-  sound: false                        // browsers block audio until the visitor interacts, so it starts off
+  words: ['BUILDER', 'ENGINEER', 'LEAD', 'SHIPPER'],   // the big outlined word cycles through these
+  sound: true                         // browsers only allow audio after the first click, tap or key, so it starts then
 };
 /* ===================================================================== */
 
@@ -251,11 +252,11 @@ async function fillLayer(a, L) {                // phase 2: type, click or draw 
   } else if (kind === 'mega') {
     await a.glide(r.x + r.w * rand(.2, .8), r.y + r.h * .5); a.click(); el.classList.add('on'); sound.whoosh();
     if (L.frame) L.frame.classList.add('edit');
-    const text = $('text', el);
-    animate(1500, k => { text.style.strokeDashoffset = 2400 * (1 - ease(k)); });
+    mega.drawIn(1500).then(() => mega.rotate());
     await sleep(260);
   } else {
     await a.glide(r.x + r.w * rand(.25, .75), r.y + r.h * rand(.3, .7)); a.click(); el.classList.add('on');
+    if ('decode' in el.dataset) await decode(el);
     await sleep(110);
   }
   if (L.frame) { const f = L.frame; f.classList.add('out'); setTimeout(() => f.remove(), 200); L.frame = null; }
@@ -433,12 +434,10 @@ const you = {
     this.label = link ? (link.target === '_blank' ? 'open ↗' : 'go') : text ? 'reading' : 'you';
     this.el.dataset.mode = this.mode;
   },
-  step(dt) {
+  step() {
     if (!this.el) return;
-    const dy = scrollY - this.lastScroll; this.lastScroll = scrollY;
-    const v = dy / Math.max(1, dt) * 1000;                      // scroll speed in px/s
-    this.vy += (v - this.vy) * Math.min(1, dt * .012);
-    if (dy && this.el.classList.contains('show')) this.sense(document.elementFromPoint(this.x, this.y));
+    this.vy = scrollMotion.v;
+    if (scrollMotion.dy && this.el.classList.contains('show')) this.sense(document.elementFromPoint(this.x, this.y));
     const speed = Math.abs(this.vy), scrolling = speed > 140;
     this.ghosts.forEach((g, i) => {                             // a trail behind the direction of travel
       const k = i + 1;
@@ -453,6 +452,138 @@ const you = {
 };
 addEventListener('resize', () => swarm.resize());
 
+/* ---------- scroll motion shared by the "you" cursor, the big word and the marquee ---------- */
+const scrollMotion = {
+  v: 0, dy: 0, dir: 1, last: 0,
+  step(dt) {
+    this.dy = scrollY - this.last; this.last = scrollY;
+    this.v += (this.dy / Math.max(1, dt) * 1000 - this.v) * Math.min(1, dt * .012);   // smoothed px/s
+    if (this.dy) this.dir = Math.sign(this.dy);
+  }
+};
+const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- the big word: per-letter outline + scroll fill, cursor spotlight, rotating words ---------- */
+const SVGNS = 'http://www.w3.org/2000/svg';
+const mega = {
+  svg: $('.mega'), word: null, clipRect: null, letters: [], vb: null, idx: 0, drawn: false, rotating: false,
+  init() {
+    const ctx = document.createElement('canvas').getContext('2d');
+    ctx.font = '400 300px Anton';
+    this.ctx = ctx; this.gap = 6;                                // letter spacing in SVG units
+    const widths = CFG.words.map(w => this.measure(w).total);
+    const asc = ctx.measureText('BH').actualBoundingBoxAscent || 270;
+    this.maxW = Math.max(...widths); this.asc = asc;
+    this.vb = { x: -6, y: -asc - 6, w: this.maxW + 12, h: asc + 12 };
+    this.svg.setAttribute('viewBox', `${this.vb.x} ${this.vb.y} ${this.vb.w} ${this.vb.h}`);
+    this.svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    this.svg.innerHTML = `<defs><clipPath id="megaFill" clipPathUnits="userSpaceOnUse"><rect x="-2000" width="6000" y="0" height="0"/></clipPath></defs><g class="word"></g>`;
+    this.word = $('.word', this.svg); this.clipRect = $('rect', this.svg);
+    this.layout(CFG.words[0]);
+  },
+  measure(word) {
+    const adv = [...word].map(ch => this.ctx.measureText(ch).width + this.gap);
+    return { adv, total: adv.reduce((a, b) => a + b, 0) - this.gap };
+  },
+  layout(word) {                                                // one <g> per letter so each can move on its own
+    const { adv, total } = this.measure(word);
+    let x = (this.maxW - total) / 2;
+    this.word.textContent = '';
+    this.letters = [...word].map((ch, i) => {
+      const w = adv[i] - this.gap, cx = x + w / 2; x += adv[i];
+      const g = document.createElementNS(SVGNS, 'g'); g.setAttribute('class', 'L');
+      g.innerHTML = `<text class="o" x="${cx}" y="0" text-anchor="middle">${ch}</text><text class="f" x="${cx}" y="0" text-anchor="middle" clip-path="url(#megaFill)">${ch}</text>`;
+      this.word.appendChild(g);
+      return { g, o: g.firstChild, cx, k: 0, ink: 1 };
+    });
+    this.svg.setAttribute('aria-label', word.charAt(0) + word.slice(1).toLowerCase());
+  },
+  setDash(offset) { this.word.style.strokeDashoffset = offset; },
+  async drawIn(ms) { await animate(ms, k => this.setDash(2400 * (1 - ease(k)))); this.drawn = true; },
+  async swap(next) {                                            // erase stroke by stroke, then draw the next word
+    await animate(650, k => { const e = ease(k); this.setDash(2400 * e); this.letters.forEach(L => { L.ink = 1 - e; }); });
+    this.layout(next); this.letters.forEach(L => { L.ink = 0; });
+    await animate(900, k => { const e = ease(k); this.setDash(2400 * (1 - e)); this.letters.forEach(L => { L.ink = e; }); });
+  },
+  async rotate() {
+    if (this.rotating || calm || CFG.words.length < 2) return;
+    this.rotating = true;
+    for (;;) {
+      await sleep(4200);
+      if (!visible.has(megaBlock) || document.hidden) continue;
+      const next = CFG.words[++this.idx % CFG.words.length], r = boxOf(this.svg);
+      await run(async a => {                                    // an idle agent "retypes" the word
+        await a.glide(r.x + r.w * rand(.3, .7), r.y + r.h * .55); a.click(); sound.whoosh();
+        await this.swap(next);
+      }, { x: r.x + r.w / 2, y: r.y });
+    }
+  },
+  step(dt) {
+    if (!this.letters.length) return;
+    const r = this.svg.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    const s = Math.min(r.width / this.vb.w, r.height / this.vb.h);
+    const ox = r.left + (r.width - this.vb.w * s) / 2, oy = r.top + (r.height - this.vb.h * s) / 2;
+    // scroll: fill rises from the bottom and the letters spread apart
+    const p = calm ? 0 : clamp(scrollY / ((r.bottom + scrollY) * .8), 0, 1);   // full by the time the word scrolls away
+    this.clipRect.setAttribute('y', (-this.asc * p).toFixed(1));
+    this.clipRect.setAttribute('height', (this.asc * p + 10).toFixed(1));
+    const n = this.letters.length, spot = you.active(performance.now()), R = 230 * s + 60;
+    this.letters.forEach((L, i) => {
+      // cursor spotlight: letters near the "you" cursor fill in, lift and swell
+      let target = 0;
+      if (spot) {
+        const cx = ox + (L.cx - this.vb.x) * s, cy = oy + (-this.asc / 2 - this.vb.y) * s;
+        target = clamp(1 - Math.hypot(you.x - cx, you.y - cy) / R, 0, 1);
+      }
+      L.k += (target - L.k) * Math.min(1, dt * .012);
+      const spread = (i - (n - 1) / 2) * p * 34;
+      L.g.style.transform = `translate(${spread.toFixed(1)}px,${(-L.k * 10).toFixed(1)}px) scale(${(1 + L.k * .08).toFixed(3)})`;
+      L.o.style.setProperty('--f', ((.07 + L.k * .8) * L.ink).toFixed(3));
+      L.o.style.setProperty('--sw', (2.4 + L.k * 2.2).toFixed(2));
+    });
+  }
+};
+const megaBlock = blocks.find(b => b.el === mega.svg);
+
+/* ---------- the name resolves from scrambled characters ---------- */
+async function decode(el) {
+  const final = el.textContent, glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&@$';
+  el.style.width = el.getBoundingClientRect().width + 'px'; el.style.overflow = 'hidden';
+  await animate(780, k => {
+    const fixed = Math.floor(k * final.length);
+    let s = '';
+    for (let i = 0; i < final.length; i++) s += i < fixed || final[i] === '.' ? final[i] : glyphs[Math.floor(Math.random() * glyphs.length)];
+    el.textContent = s; sound.tick();
+  });
+  el.textContent = final; el.style.width = ''; el.style.overflow = '';
+}
+
+/* ---------- skills marquee: drifts on its own, speeds up and turns with your scroll ---------- */
+const marquee = {
+  track: $('.mq-track'), offset: 0, width: 0,
+  measure() { const set = $('.mq-set', this.track); this.width = set ? set.getBoundingClientRect().width : 0; },
+  step(dt) {
+    if (!this.track || calm) return;
+    if (!this.width) this.measure();
+    if (!this.width) return;
+    const speed = 42 + Math.min(1800, Math.abs(scrollMotion.v)) * .4;
+    this.offset = ((this.offset + speed * scrollMotion.dir * dt / 1000) % this.width + this.width) % this.width;
+    this.track.style.transform = `translate3d(${(-this.offset).toFixed(1)}px,0,0)`;
+  }
+};
+addEventListener('resize', () => marquee.measure());
+
+/* ---------- local time chip ---------- */
+const istFormat = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: false });
+function tickClock() {
+  const t = istFormat.format(new Date()), h = parseInt(t, 10);
+  const mood = h < 7 ? 'probably asleep' : h < 10 ? 'coffee + code' : h < 19 ? 'likely shipping' : 'side-project hours';
+  const timeEl = $('#ist'), moodEl = $('#istMood');           // looked up each tick: typing animations can replace them
+  if (timeEl) timeEl.textContent = t;
+  if (moodEl) moodEl.textContent = mood;
+}
+
 /* ---------- main loop ---------- */
 let last = performance.now();
 function frame(now) {
@@ -460,10 +591,13 @@ function frame(now) {
   const pendingBlocks = blocks.reduce((n, b) => n + (b.job && !b.built ? 1 : 0), 0);
   clock.rush = clamp(1 + backlog.length / 10 + Math.max(0, pendingBlocks - 1) * .5, 1, 4);
   advanceClock(dt);
+  scrollMotion.step(dt);
   for (const a of agents) if (a.idle) a.drift(dt * Math.min(2, clock.speed), now);
   for (const a of agents) a.render();
   swarm.step(dt, now);
-  you.step(dt);
+  you.step();
+  mega.step(dt);
+  marquee.step(dt);
   requestAnimationFrame(frame);
 }
 
@@ -473,7 +607,7 @@ function showFinished() {                       // the whole page at once
   blocks.forEach(b => { b.job = Promise.resolve(); b.built = true; });
   accentPick = Promise.resolve(); inkNow();
   $$('[data-b]').forEach(e => e.classList.add('on'));
-  $('.mega text').style.strokeDashoffset = 0;
+  mega.setDash(0); mega.rotate();
   doneCount = total; showProgress(); setStatus('All built ✓');
 }
 function reloadWith(flag) {
@@ -496,8 +630,12 @@ onButton('#bColour', cycleAccent);
 onButton('#bSkip', buildAll);
 onButton('#bReplay', replay);
 addEventListener('click', e => { if (!e.target.closest('#crew')) setPanel(false); });
-addEventListener('pointerdown', () => sound.ctx && sound.unlock(), true);
+// first click, tap or key press unlocks audio (browsers block it before any interaction; scrolling doesn't count)
+const unlockSound = () => { if (sound.on) sound.unlock(); };
+addEventListener('pointerdown', unlockSound, true);
+addEventListener('touchend', unlockSound, true);
 addEventListener('keydown', e => {
+  unlockSound();
   if (e.metaKey || e.ctrlKey || e.altKey || e.target.closest('input, textarea, select, [contenteditable]')) return;
   const k = e.key.toLowerCase();
   if (k === 'escape') setPanel(false);
@@ -519,16 +657,8 @@ addEventListener('keydown', e => {
     await document.fonts.ready;
   } catch (e) { /* fall back to system fonts */ }
 
-  // fit the outlined word to its own glyph box so it runs edge to edge
-  const svg = $('.mega'), text = $('text', svg), g = document.createElement('canvas').getContext('2d');
-  g.font = '400 300px Anton';
-  const m = g.measureText(text.textContent);
-  const left = m.actualBoundingBoxLeft || 0, width = (m.actualBoundingBoxRight || m.width || 1000) + left;
-  const asc = m.actualBoundingBoxAscent || 270, desc = m.actualBoundingBoxDescent || 0;
-  const extra = parseFloat(getComputedStyle(text).letterSpacing) || 0;   // CSS letter-spacing widens the run
-  svg.setAttribute('viewBox', `${-left - 4} ${-asc - 4} ${width + extra * text.textContent.length + 8} ${asc + desc + 8}`);
-  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-  text.setAttribute('x', 0); text.setAttribute('y', 0);
+  mega.init();                                  // split the big word into letters, sized to the widest word
+  tickClock(); setInterval(tickClock, 20000);
 
   const n = clamp(parseInt(params.get('agents'), 10) || CFG.agents, 4, 60);
   $$('.n-agents').forEach(e => { e.textContent = n; });

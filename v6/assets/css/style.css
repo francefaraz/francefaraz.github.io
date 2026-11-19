@@ -42,10 +42,27 @@ kbd{font:500 11.5px/1 var(--mono);padding:3px 6px;border:1px solid var(--line);b
 .avail:hover{border-color:var(--paper)}
 .avail i{width:7px;height:7px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 0 #3ddc84;animation:ping 2s infinite}
 @keyframes ping{70%{box-shadow:0 0 0 7px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.clock{display:flex;align-items:center;gap:8px;font:500 12px/1 var(--mono);color:var(--mute);white-space:nowrap}
+.clock i{width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.clock time{color:var(--paper)}
+.clock em{font-style:normal;color:var(--acc)}
+.clock em:not(:empty)::before{content:"· ";color:var(--mute)}
+@media (max-width:1180px){.clock em{display:none}}
+@media (max-width:860px){.clock{display:none}}
 
 .mega{grid-column:1/-1;display:block;width:100%;height:auto;max-height:30vh;overflow:visible;filter:drop-shadow(0 0 24px color-mix(in srgb,var(--acc) 35%,transparent))}
-.mega text{font:400 300px/1 var(--display);letter-spacing:.02em;fill:color-mix(in srgb,var(--acc) 7%,transparent);stroke:var(--acc);stroke-width:2.4;stroke-linejoin:round;stroke-dasharray:2400;stroke-dashoffset:2400;paint-order:stroke}
-html:not(.js) .mega text{stroke-dashoffset:0}
+.mega text{font:400 300px/1 var(--display);stroke-linejoin:round;paint-order:stroke}
+html:not(.js) .mega text{fill:color-mix(in srgb,var(--acc) 7%,transparent);stroke:var(--acc);stroke-width:2.4}
+/* letter-by-letter word built by main.js: outline (.o) + scroll fill (.f) per letter */
+.mega .word{stroke-dasharray:2400;stroke-dashoffset:2400}
+.mega .L{transform-box:fill-box;transform-origin:50% 100%}
+.mega .o{fill:var(--acc);fill-opacity:var(--f,.07);stroke:var(--acc);stroke-width:var(--sw,2.4)}
+.mega .f{fill:var(--acc);stroke:none}
+
+.marquee{overflow:hidden;border-block:1px solid var(--line);background:var(--ink2);padding:14px 0 12px;margin-top:clamp(10px,3vh,30px)}
+.mq-track{display:flex;width:max-content;will-change:transform}
+.mq-set{flex:none;font:400 clamp(26px,3vw,46px)/1 var(--display);text-transform:uppercase;letter-spacing:.04em;white-space:pre;color:var(--paper)}
+html:not(.js) .mq-set+.mq-set{display:none}
 
 .intro{grid-column:1;position:relative;z-index:2;margin-top:clamp(-70px,-4.6vw,-18px);align-self:start}
 .hello{display:inline-block;font-weight:600;font-size:clamp(18px,1.6vw,26px);transform:rotate(-4deg);transform-origin:left bottom;margin:0 0 6px 4px;text-shadow:0 2px 14px var(--ink)}
