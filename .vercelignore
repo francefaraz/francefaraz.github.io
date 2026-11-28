@@ -1,0 +1,7 @@
+.env*
+.vercel
+.claude
+.git
+.gitmodules
+cursors
+Screenshot *.png
