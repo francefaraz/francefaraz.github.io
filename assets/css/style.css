@@ -69,6 +69,10 @@ html:not(.js) .mq-set+.mq-set{display:none}
 .name{display:block;width:max-content;background:var(--acc);color:var(--on-acc);font:400 clamp(58px,7vw,116px)/.86 var(--display);padding:.1em .14em .04em;letter-spacing:.015em}
 .role{display:flex;align-items:center;gap:10px;margin-top:clamp(14px,2.2vh,24px);font-weight:600;font-size:clamp(14px,1.05vw,17px)}
 .role i{width:8px;height:8px;background:var(--acc);flex:none}
+.role .typed{white-space:nowrap}
+.role .typed.typing::after{content:'';display:inline-block;width:2px;height:1.15em;margin-left:3px;vertical-align:-.2em;background:var(--acc);animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .lede{max-width:34em;margin-top:clamp(10px,1.8vh,18px);font-size:clamp(15.5px,1.2vw,19px);line-height:1.5;color:#d3d8de}
 .lede b{color:var(--paper);font-weight:700}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(16px,2.6vh,28px)}
