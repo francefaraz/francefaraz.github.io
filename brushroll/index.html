@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brushroll: Maze Paint Puzzle – calm offline maze game for Android</title>
+<meta name="description" content="Swipe, roll and paint every tile. Brushroll is a calm, offline maze paint puzzle with endless levels, a daily challenge, 15 color themes and ball skins.">
+<meta name="theme-color" content="#FB7A00">
+<link rel="icon" href="img/favicon-48.png" sizes="48x48">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Brushroll: Maze Paint Puzzle">
+<meta property="og:description" content="Swipe, roll and paint every tile. A calm, offline maze puzzle for Android.">
+<meta property="og:url" content="https://francefaraz.github.io/brushroll/">
+<meta property="og:image" content="https://francefaraz.github.io/brushroll/img/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"MobileApplication","name":"Brushroll: Maze Paint Puzzle","operatingSystem":"Android","applicationCategory":"GameApplication","installUrl":"https://play.google.com/store/apps/details?id=far.munexa.mazepaint","image":"https://francefaraz.github.io/brushroll/img/icon-256.png","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<style>
+  :root { --ink: #2b2540; --muted: #6b6580; --orange: #FB7A00; --gold: #FFB703; --card: #ffffff; --bg: #fff8ef; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  h1, h2, .tag, .chips { font-family: "Fredoka", system-ui, sans-serif; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+  .hero { background: linear-gradient(160deg, var(--gold), var(--orange)); color: #fff; text-align: center; padding: 56px 0 64px; border-radius: 0 0 40px 40px; }
+  .icon { width: 128px; height: 128px; border-radius: 28px; box-shadow: 0 18px 40px rgba(120, 50, 0, .35); }
+  h1 { font-size: 56px; line-height: 1; margin: 22px 0 6px; letter-spacing: -1px; }
+  .tag { display: inline-block; background: #fff; color: var(--orange); font-weight: 700; font-size: 24px; padding: 4px 22px 6px; border-radius: 18px; transform: rotate(-2deg); }
+  .lead { max-width: 620px; margin: 22px auto 26px; font-size: 19px; opacity: .97; }
+  .play img { width: 216px; height: auto; }
+  .chips { margin: 18px 0 0; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; font-weight: 600; }
+  .chips span { background: rgba(255, 255, 255, .22); padding: 6px 16px; border-radius: 999px; }
+  .shots { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 36px 20px 12px; max-width: 1100px; margin: 0 auto; }
+  .shots img { flex: 0 0 auto; width: 240px; height: auto; border-radius: 22px; scroll-snap-align: center; box-shadow: 0 14px 34px rgba(43, 37, 64, .18); }
+  section.text { background: var(--card); border-radius: 28px; padding: 28px 32px; margin: 28px auto; box-shadow: 0 10px 30px rgba(43, 37, 64, .07); }
+  h2 { font-size: 30px; margin: 0 0 12px; }
+  ul, ol { margin: 0; padding-left: 22px; }
+  li { margin: 6px 0; }
+  .note { color: var(--muted); font-size: 15px; }
+  footer { text-align: center; padding: 26px 20px 48px; color: var(--muted); font-size: 15px; }
+  footer a { color: var(--orange); font-weight: 600; text-decoration: none; margin: 0 8px; }
+  @media (max-width: 600px) { h1 { font-size: 44px; } .shots img { width: 200px; } section.text { padding: 22px 20px; border-radius: 22px; } }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <img class="icon" src="img/icon-256.png" alt="Brushroll app icon" width="128" height="128">
+    <h1>Brushroll</h1>
+    <span class="tag">Maze Paint Puzzle</span>
+    <p class="lead">Swipe to send the ball rolling. It slides until it hits a wall and paints every tile it passes. Fill the whole maze with color to clear the level.</p>
+    <a class="play" href="https://play.google.com/store/apps/details?id=far.munexa.mazepaint&amp;referrer=utm_source%3Dwebsite%26utm_medium%3Dbrushroll_page"><img src="img/google-play-badge.png" alt="Get it on Google Play" width="216" height="84"></a>
+    <p class="chips"><span>Plays offline</span><span>Endless levels</span><span>Daily challenge</span></p>
+  </div>
+</header>
+
+<main>
+  <div class="shots" aria-label="Screenshots">
+    <img src="img/shot-1.jpg" alt="Swipe, roll and paint the maze" width="540" height="960" loading="lazy">
+    <img src="img/shot-2.jpg" alt="Fill every tile in the Neon theme" width="540" height="960" loading="lazy">
+    <img src="img/shot-3.jpg" alt="Level complete with a PERFECT bonus" width="540" height="960" loading="lazy">
+    <img src="img/shot-4.jpg" alt="15 color themes" width="540" height="960" loading="lazy">
+    <img src="img/shot-5.jpg" alt="A hint shows your next moves" width="540" height="960" loading="lazy">
+    <img src="img/shot-6.jpg" alt="Play offline, anywhere" width="540" height="960" loading="lazy">
+  </div>
+
+  <div class="wrap">
+    <section class="text">
+      <h2>How to play</h2>
+      <ol>
+        <li>Swipe up, down, left or right.</li>
+        <li>The ball rolls until it hits a wall and paints every tile it passes.</li>
+        <li>Color every tile to clear the level. Finish within par for a PERFECT bonus.</li>
+      </ol>
+    </section>
+
+    <section class="text">
+      <h2>Why you'll love it</h2>
+      <ul>
+        <li>Endless maze levels that get trickier as you go, every one checked to be solvable</li>
+        <li>A new Daily Challenge maze every day, with a streak bonus</li>
+        <li>One-finger swipe controls, perfect for quick breaks</li>
+        <li>Stuck? A hint shows your next 3 moves</li>
+        <li>Earn stars to unlock 15 color themes and ball skins</li>
+        <li>Plays offline, anywhere: no Wi-Fi needed</li>
+      </ul>
+      <p class="note">Free to play with ads and optional in-app purchases. The leaderboard is a practice league with simulated rivals.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <nav><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><a href="privacy.html#contact">Contact</a></nav>
+  <p>Google Play and the Google Play logo are trademarks of Google LLC.</p>
+</footer>
+</body>
+</html>
